@@ -1,8 +1,4 @@
 package controller;
-
-import java.text.DateFormat;
-import java.util.GregorianCalendar;
-
 import model.*;
 import persistency.FileHandler;
 import view.GUI;
@@ -21,6 +17,7 @@ public class Controller {
 	
 	public static void main(String[] args) {
 		run();
+<<<<<<< HEAD
 		/**
 		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 		GregorianCalendar now = new GregorianCalendar();
@@ -33,5 +30,7 @@ public class Controller {
 			System.out.println(now.getTime());
 		}
 		**/
+=======
+>>>>>>> origin/master
 	}
 }
