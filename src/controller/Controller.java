@@ -32,6 +32,5 @@ public class Controller {
 			System.out.println(now.getTime());
 		}
 		
-		System.out.println("Test");
 	}
 }
