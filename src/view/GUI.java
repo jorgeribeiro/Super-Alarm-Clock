@@ -10,6 +10,15 @@ import javax.swing.*;
 
 public class GUI {
 	private JFrame frame;
+	private static final int ALARM_DIALOG 	= 1;
+	private static final int BED_DIALOG 	= 2;
+	private static final int AWAKE_DIALOG 	= 3;
+	private static final int STATUS_DIALOG 	= 4;
+	private static final int REPORT_DIALOG 	= 5;
+	
+	
+	
+	
 	
 	public GUI() {}
 	
@@ -106,7 +115,7 @@ public class GUI {
 		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		private void setupSetAlarmDialog() {
-			NewDialog dialog = new NewDialog(frame, "Set Alarm", Dialog.ModalityType.DOCUMENT_MODAL);
+			NewDialog dialog = new NewDialog(frame, "Set Alarm", Dialog.ModalityType.DOCUMENT_MODAL,ALARM_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new BorderLayout());
 			
@@ -145,7 +154,7 @@ public class GUI {
 		}
 		
 		private void setupGoingToBedDialog() {
-			NewDialog dialog = new NewDialog(frame, "Going to bed", Dialog.ModalityType.DOCUMENT_MODAL);
+			NewDialog dialog = new NewDialog(frame, "Going to bed", Dialog.ModalityType.DOCUMENT_MODAL,BED_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new GridBagLayout());
 			
@@ -155,7 +164,7 @@ public class GUI {
 		}
 		
 		private void setupAwakeDialog() {
-			NewDialog dialog = new NewDialog(frame, "I am awake", Dialog.ModalityType.DOCUMENT_MODAL);
+			NewDialog dialog = new NewDialog(frame, "I am awake", Dialog.ModalityType.DOCUMENT_MODAL,AWAKE_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new GridBagLayout());
 			
@@ -165,7 +174,7 @@ public class GUI {
 		}
 		
 		private void setupSleepStatusDialog() {
-			NewDialog dialog = new NewDialog(frame, "Sleep status", Dialog.ModalityType.DOCUMENT_MODAL);
+			NewDialog dialog = new NewDialog(frame, "Sleep status", Dialog.ModalityType.DOCUMENT_MODAL,STATUS_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new GridBagLayout());
 			
@@ -175,7 +184,7 @@ public class GUI {
 		}
 		
 		private void setupSetReportContactDialog() {
-			NewDialog dialog = new NewDialog(frame, "Set report contact", Dialog.ModalityType.DOCUMENT_MODAL);
+			NewDialog dialog = new NewDialog(frame, "Set report contact", Dialog.ModalityType.DOCUMENT_MODAL,REPORT_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new BorderLayout());
 			
@@ -244,9 +253,11 @@ public class GUI {
 		
 		Container container;
 		JButton btnOk;
+		int dialog;
 		
-		public NewDialog(Window owner, String title, Dialog.ModalityType modalityType) {
+		public NewDialog(Window owner, String title, Dialog.ModalityType modalityType,int dialogType) {
 			super(owner, title, modalityType);
+			dialog = dialogType;
 		}
 		
 		public void setupDialog(JPanel panel) {
@@ -261,6 +272,21 @@ public class GUI {
 			btnOk.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+					if(dialog==ALARM_DIALOG){
+						
+					}
+					if(dialog==BED_DIALOG){
+						
+					}
+					if(dialog==AWAKE_DIALOG){
+						
+					}
+					if(dialog==STATUS_DIALOG){
+						
+					}
+					if(dialog==REPORT_DIALOG){
+						System.out.println("Xau");
+					}
 					dispose();
 				}
 			});
