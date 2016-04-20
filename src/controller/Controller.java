@@ -17,20 +17,5 @@ public class Controller {
 	
 	public static void main(String[] args) {
 		run();
-<<<<<<< HEAD
-		/**
-		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
-		GregorianCalendar now = new GregorianCalendar();
-		System.out.println(df.format(now.getTime()));
-		GregorianCalendar oneDayLater = new GregorianCalendar();
-		oneDayLater.add(GregorianCalendar.DATE, 1);
-		System.out.println(df.format(oneDayLater.getTime()));
-		while(now.before(oneDayLater)) {
-			now.add(GregorianCalendar.MINUTE, 60);
-			System.out.println(now.getTime());
-		}
-		**/
-=======
->>>>>>> origin/master
 	}
 }
