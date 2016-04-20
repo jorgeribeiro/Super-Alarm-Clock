@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
@@ -217,14 +216,15 @@ public class GUI {
 		private void setup() {
 			txtClock = new JTextField(7);
 			font = new Font("SansSerif", Font.BOLD, 25);
-			  GregorianCalendar now = new GregorianCalendar();
-			  GregorianCalendar oneDayLater = new GregorianCalendar();
-			  SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-			  oneDayLater.add(GregorianCalendar.DATE, 1);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+			GregorianCalendar now = new GregorianCalendar();
+			txtClock.setText(dateFormat.format(now.getTime()));
+			GregorianCalendar oneDayLater = new GregorianCalendar();
+			oneDayLater.add(GregorianCalendar.DATE, 1);
 			
 			ActionListener updateClockAction = new ActionListener() {
 				  public void actionPerformed(ActionEvent e) {
-					  now.add(GregorianCalendar.MINUTE,60);
+					  now.add(GregorianCalendar.MINUTE, 1);
 					  txtClock.setText(dateFormat.format(now.getTime()));
 				    }
 			};
