@@ -3,6 +3,9 @@ package view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
@@ -125,8 +128,20 @@ public class GUI {
 		private void setup() {
 			txtClock = new JTextField(7);
 			font = new Font("SansSerif", Font.BOLD, 25);
+			  GregorianCalendar now = new GregorianCalendar();
+			  GregorianCalendar oneDayLater = new GregorianCalendar();
+			  SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+			  oneDayLater.add(GregorianCalendar.DATE, 1);
 			
-			txtClock.setText("9:39am");
+			ActionListener updateClockAction = new ActionListener() {
+				  public void actionPerformed(ActionEvent e) {
+					  now.add(GregorianCalendar.MINUTE,60);
+					  txtClock.setText(dateFormat.format(now.getTime()));
+				    }
+			};
+			Timer t = new Timer(1000, updateClockAction);
+			t.start();
+			
 			txtClock.setEditable(false);
 			txtClock.setHorizontalAlignment(JTextField.CENTER);
 			txtClock.setFont(font);
