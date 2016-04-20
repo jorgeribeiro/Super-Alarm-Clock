@@ -20,7 +20,8 @@ public class Controller {
 	}
 	
 	public static void main(String[] args) {
-		//run();
+		run();
+		/**
 		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 		GregorianCalendar now = new GregorianCalendar();
 		System.out.println(df.format(now.getTime()));
@@ -31,6 +32,6 @@ public class Controller {
 			now.add(GregorianCalendar.MINUTE, 60);
 			System.out.println(now.getTime());
 		}
-		
+		**/
 	}
 }
