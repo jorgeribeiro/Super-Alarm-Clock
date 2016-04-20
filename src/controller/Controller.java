@@ -31,5 +31,7 @@ public class Controller {
 			now.add(GregorianCalendar.MINUTE, 60);
 			System.out.println(now.getTime());
 		}
+		
+		System.out.println("Test");
 	}
 }
