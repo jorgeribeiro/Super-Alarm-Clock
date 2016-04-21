@@ -292,8 +292,12 @@ public class GUI {
 						
 					}
 					if(dialog==REPORT_DIALOG){
+						String info = "";
 						ArrayList<JTextField> aux = (ArrayList<JTextField>) data;
-						ctrl.saveContactTxt(aux.get(0).getText(),aux.get(1).getText(),aux.get(2).getText());
+						info+="Name: " + aux.get(0).getText() + "\n";
+						info+="Email: "+ aux.get(1).getText() + "\n";
+						info+="Telephone: " + aux.get(2).getText() + "\n";
+						ctrl.saveContactTxt(info);
 				
 					}
 					dispose();
