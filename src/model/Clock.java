@@ -6,8 +6,12 @@ import java.util.GregorianCalendar;
 import event.*;
 
 public class Clock {
-	private GregorianCalendar time; // change
+	private GregorianCalendar time;
 	private ArrayList<Event> events;
+	public static final int WAKE_ALARM   = 0;
+	public static final int SLEEP_ALARM  = 1;
+	public static final int RED_ALERT    = 2;
+	public static final int YELLOW_ALERT = 3;
 	
 	public Clock() {
 		time = new GregorianCalendar();
@@ -20,11 +24,7 @@ public class Clock {
 		Event sleepAlarm = new SleepAlarm();
 		Event redAlert = new RedAlert();
 		Event yellowAlert = new YellowAlert();
-		
-		GregorianCalendar wakeTime = new GregorianCalendar();
-		wakeTime.add(GregorianCalendar.MINUTE, 2);
-		wakeAlarm.setTime(wakeTime);
-		
+	
 		events.add(wakeAlarm);
 		events.add(sleepAlarm);
 		events.add(redAlert);
@@ -49,6 +49,10 @@ public class Clock {
 
 	public void setEvents(ArrayList<Event> events) {
 		this.events = events;
+	}
+	
+	public void setAlarm(int index, GregorianCalendar time) {
+		events.get(index).setTime(time);
 	}
 	
 	public String testEvents() {

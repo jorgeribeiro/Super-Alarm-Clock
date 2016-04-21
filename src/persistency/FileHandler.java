@@ -7,7 +7,7 @@ import java.io.IOException;
 import model.Contact;
 
 public class FileHandler {
-	public void writeFile(String fileName,Contact contact) {
+	public void writeFile(String fileName, Contact contact) {
 	    FileWriter fileWriter;  
 	    BufferedWriter bufferedWriter; 
 		try {

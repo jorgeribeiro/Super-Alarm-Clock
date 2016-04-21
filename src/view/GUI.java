@@ -5,24 +5,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
 import controller.Controller;
+import model.Clock;
 
 public class GUI {
 	private JFrame frame;
 	private JPanel btnPanel, clockPanel;
+	private Controller ctrl;
+	private Clock clock;
+	
 	private static final int ALARM_DIALOG 	= 1;
 	private static final int BED_DIALOG 	= 2;
 	private static final int AWAKE_DIALOG 	= 3;
 	private static final int STATUS_DIALOG 	= 4;
 	private static final int REPORT_DIALOG 	= 5;
 	private static final int EVENT_DIALOG   = 6;
-	Controller ctrl;
 	
-	public GUI(Controller c) {ctrl = c;}
+	public GUI(Controller ctrl, Clock clock) {
+		this.ctrl = ctrl;
+		this.clock = clock;
+	}
 	
 	public void frameSetup() {
 		frame = new JFrame("Super Alarm Clock");
@@ -127,7 +134,6 @@ public class GUI {
 			
 			String[] times = {"am", "pm"};
 			JTextField txtWakeUpH = new JTextField(2);
-			
 			JTextField txtWakeUpM = new JTextField(3);
 			JTextField txtSleepH = new JTextField(2);
 			JTextField txtSleepM = new JTextField(3);
@@ -156,36 +162,34 @@ public class GUI {
 			
 			p.add(pnlWakeUp, BorderLayout.CENTER);
 			p.add(pnlSleep, BorderLayout.SOUTH);
-			dialog.setupDialog(p, null);
+			Component[] components = p.getComponents();
+			dialog.setupDialog(p, components);
 		}
 		
 		private void setupGoingToBedDialog() {
 			NewDialog dialog = new NewDialog(frame, "Going to bed", Dialog.ModalityType.DOCUMENT_MODAL, BED_DIALOG);
 			JPanel p = new JPanel();
+			
 			p.setLayout(new GridBagLayout());
-			
-			p.add(new JLabel("Data recorded! Have a good night."));
-			
+			p.add(new JLabel(" Data recorded! Have a good night. "));
 			dialog.setupDialog(p, null);
 		}
 		
 		private void setupAwakeDialog() {
 			NewDialog dialog = new NewDialog(frame, "I am awake", Dialog.ModalityType.DOCUMENT_MODAL, AWAKE_DIALOG);
 			JPanel p = new JPanel();
+			
 			p.setLayout(new GridBagLayout());
-			
-			p.add(new JLabel("Data recorded! Have a good day."));
-			
+			p.add(new JLabel(" Data recorded! Have a good day. "));
 			dialog.setupDialog(p, null);
 		}
 		
 		private void setupSleepStatusDialog() {
 			NewDialog dialog = new NewDialog(frame, "Sleep status", Dialog.ModalityType.DOCUMENT_MODAL, STATUS_DIALOG);
 			JPanel p = new JPanel();
+			
 			p.setLayout(new GridBagLayout());
-			
 			p.add(new JTextField(15));
-			
 			dialog.setupDialog(p, null);
 		}
 		
@@ -193,7 +197,6 @@ public class GUI {
 			NewDialog dialog = new NewDialog(frame, "Set report contact", Dialog.ModalityType.DOCUMENT_MODAL, REPORT_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new BorderLayout());
-			
 			
 			//ArrayList JtextField
 			ArrayList <JTextField> listText = new ArrayList<JTextField>(); 
@@ -267,7 +270,8 @@ public class GUI {
 			dialog = dialogType;
 		}
 		
-		public void setupDialog(JPanel panel,Object data) {
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		public void setupDialog(JPanel panel, Object data) {
 			container = this.getContentPane();
 			btnOk = new JButton("OK");
 			JPanel btn = new JPanel();
@@ -279,22 +283,50 @@ public class GUI {
 			btnOk.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if(dialog==ALARM_DIALOG){
+					if(dialog == ALARM_DIALOG) {
+						Component[] components = (Component[]) data;
+						JPanel pnlWakeUp = (JPanel) components[0];
+						JTextField txtWakeUpH = (JTextField) pnlWakeUp.getComponent(1);
+						JTextField txtWakeUpM = (JTextField) pnlWakeUp.getComponent(3);
+						JComboBox comboWakeUp = (JComboBox) pnlWakeUp.getComponent(4);
+						JCheckBox cbWakeUp = (JCheckBox) pnlWakeUp.getComponent(5);
+						if(cbWakeUp.isSelected()) {
+							GregorianCalendar time = new GregorianCalendar(1, 1, 1, 
+									Integer.parseInt(txtWakeUpH.getText()), Integer.parseInt(txtWakeUpM.getText()));
+							if(comboWakeUp.getSelectedIndex() == Calendar.AM)
+								time.set(Calendar.AM_PM, Calendar.AM);
+							else
+								time.set(Calendar.AM_PM, Calendar.PM);
+							clock.setAlarm(Clock.WAKE_ALARM, time);
+						}
+						
+						JPanel pnlSleep = (JPanel) components[1];
+						JTextField txtSleepH = (JTextField) pnlSleep.getComponent(1);
+						JTextField txtSleepM = (JTextField) pnlSleep.getComponent(3);
+						JComboBox comboSleep = (JComboBox) pnlSleep.getComponent(4);
+						JCheckBox cbSleep = (JCheckBox) pnlSleep.getComponent(5);
+						if(cbSleep.isSelected()) {
+							GregorianCalendar time = new GregorianCalendar(1, 1, 1, 
+									Integer.parseInt(txtSleepH.getText()), Integer.parseInt(txtSleepM.getText()));
+							if(comboSleep.getSelectedIndex() == Calendar.AM)
+								time.set(Calendar.AM_PM, Calendar.AM);
+							else
+								time.set(Calendar.AM_PM, Calendar.PM);
+							clock.setAlarm(Clock.SLEEP_ALARM, time);
+						}
+					}
+					if(dialog == BED_DIALOG) {
 						
 					}
-					if(dialog==BED_DIALOG){
+					if(dialog == AWAKE_DIALOG) {
 						
 					}
-					if(dialog==AWAKE_DIALOG){
+					if(dialog == STATUS_DIALOG) {
 						
 					}
-					if(dialog==STATUS_DIALOG){
-						
-					}
-					if(dialog==REPORT_DIALOG){
+					if(dialog == REPORT_DIALOG) {
 						ArrayList<JTextField> aux = (ArrayList<JTextField>) data;
 						ctrl.saveContactTxt(aux.get(0).getText(),aux.get(1).getText(),aux.get(2).getText());
-				
 					}
 					dispose();
 				}

@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 import model.*;
@@ -20,11 +19,11 @@ public class Controller {
 	private static FileHandler fileHandler;
 	
 	public Controller() {
-		gui = new GUI(this);
 		clock = new Clock();
 		user = new Student();
 		contact = new Contact();
 		fileHandler = new FileHandler();
+		gui = new GUI(this, clock);
 		
 		gui.frameSetup();
     	setupClock();
@@ -42,10 +41,9 @@ public class Controller {
 							@Override
 							public void run() {
 								gui.updateClockPanel(clock.getTime());
-								// test alarms every update
 								String info = clock.testEvents();
-								if(info.length() > 0) {
-									gui.setupEventDialog(info);
+								if(info.length() > 0) { 
+									gui.setupEventDialog(info); // test alarms every update
 								}
 							}
 						});		
@@ -57,7 +55,7 @@ public class Controller {
 		t.start();
 	}
 	
-	 public void saveContactTxt(String name,String phone,String email){
+	 public void saveContactTxt(String name, String phone, String email){
 		contact.setName(name);
 		contact.setPhone(phone);
 		contact.setEmail(email);
