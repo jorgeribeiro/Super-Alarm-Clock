@@ -10,15 +10,13 @@ import javax.swing.*;
 
 public class GUI {
 	private JFrame frame;
+	private JPanel btnPanel, clockPanel;
 	private static final int ALARM_DIALOG 	= 1;
 	private static final int BED_DIALOG 	= 2;
 	private static final int AWAKE_DIALOG 	= 3;
 	private static final int STATUS_DIALOG 	= 4;
 	private static final int REPORT_DIALOG 	= 5;
-	
-	
-	
-	
+	private static final int EVENT_DIALOG   = 6;
 	
 	public GUI() {}
 	
@@ -27,8 +25,8 @@ public class GUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new GridLayout());
 		
-		JPanel btnPanel = new ButtonPanel();
-		JPanel clockPanel = new ClockPanel();
+		btnPanel = new ButtonPanel();
+		clockPanel = new ClockPanel();
 		
 		frame.add(btnPanel);
 		frame.add(clockPanel);
@@ -36,6 +34,10 @@ public class GUI {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+	}
+	
+	public void updateClockPanel(GregorianCalendar time) {
+		((ClockPanel) clockPanel).updateClock(time);
 	}
 	
 	class ButtonPanel extends JPanel {
@@ -115,7 +117,7 @@ public class GUI {
 		
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		private void setupSetAlarmDialog() {
-			NewDialog dialog = new NewDialog(frame, "Set Alarm", Dialog.ModalityType.DOCUMENT_MODAL,ALARM_DIALOG);
+			NewDialog dialog = new NewDialog(frame, "Set Alarm", Dialog.ModalityType.DOCUMENT_MODAL, ALARM_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new BorderLayout());
 			
@@ -150,41 +152,41 @@ public class GUI {
 			
 			p.add(pnlWakeUp, BorderLayout.CENTER);
 			p.add(pnlSleep, BorderLayout.SOUTH);
-			dialog.setupDialog(p,null);
+			dialog.setupDialog(p, null);
 		}
 		
 		private void setupGoingToBedDialog() {
-			NewDialog dialog = new NewDialog(frame, "Going to bed", Dialog.ModalityType.DOCUMENT_MODAL,BED_DIALOG);
+			NewDialog dialog = new NewDialog(frame, "Going to bed", Dialog.ModalityType.DOCUMENT_MODAL, BED_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new GridBagLayout());
 			
 			p.add(new JLabel("Data recorded! Have a good night."));
 			
-			dialog.setupDialog(p,null);
+			dialog.setupDialog(p, null);
 		}
 		
 		private void setupAwakeDialog() {
-			NewDialog dialog = new NewDialog(frame, "I am awake", Dialog.ModalityType.DOCUMENT_MODAL,AWAKE_DIALOG);
+			NewDialog dialog = new NewDialog(frame, "I am awake", Dialog.ModalityType.DOCUMENT_MODAL, AWAKE_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new GridBagLayout());
 			
 			p.add(new JLabel("Data recorded! Have a good day."));
 			
-			dialog.setupDialog(p,null);
+			dialog.setupDialog(p, null);
 		}
 		
 		private void setupSleepStatusDialog() {
-			NewDialog dialog = new NewDialog(frame, "Sleep status", Dialog.ModalityType.DOCUMENT_MODAL,STATUS_DIALOG);
+			NewDialog dialog = new NewDialog(frame, "Sleep status", Dialog.ModalityType.DOCUMENT_MODAL, STATUS_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new GridBagLayout());
 			
 			p.add(new JTextField(15));
 			
-			dialog.setupDialog(p,null);
+			dialog.setupDialog(p, null);
 		}
 		
 		private void setupSetReportContactDialog() {
-			NewDialog dialog = new NewDialog(frame, "Set report contact", Dialog.ModalityType.DOCUMENT_MODAL,REPORT_DIALOG);
+			NewDialog dialog = new NewDialog(frame, "Set report contact", Dialog.ModalityType.DOCUMENT_MODAL, REPORT_DIALOG);
 			JPanel p = new JPanel();
 			p.setLayout(new BorderLayout());
 			
@@ -208,8 +210,17 @@ public class GUI {
 			p.add(pnlName, BorderLayout.NORTH);
 			p.add(pnlEmail, BorderLayout.CENTER);
 			p.add(pnlPhone, BorderLayout.SOUTH);
-			dialog.setupDialog(p,txtName);
+			dialog.setupDialog(p, txtName);
 		}
+	}
+	
+	public void setupEventDialog(String info) {
+		NewDialog dialog = new NewDialog(frame, "Alert", Dialog.ModalityType.DOCUMENT_MODAL, EVENT_DIALOG);
+		JPanel p = new JPanel();
+		
+		p.setLayout(new GridBagLayout());
+		p.add(new JLabel(info));
+		dialog.setupDialog(p, null);
 	}
 
 	class ClockPanel extends JPanel {
@@ -219,32 +230,18 @@ public class GUI {
 		Font font;
 		
 		public ClockPanel() {
-			setup();
-		}
-		
-		private void setup() {
 			txtClock = new JTextField(7);
 			font = new Font("SansSerif", Font.BOLD, 25);
-			SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-			GregorianCalendar now = new GregorianCalendar();
-			txtClock.setText(dateFormat.format(now.getTime()));
-			GregorianCalendar oneDayLater = new GregorianCalendar();
-			oneDayLater.add(GregorianCalendar.DATE, 1);
-			
-			ActionListener updateClockAction = new ActionListener() {
-				  public void actionPerformed(ActionEvent e) {
-					  now.add(GregorianCalendar.MINUTE, 1);
-					  txtClock.setText(dateFormat.format(now.getTime()));
-				    }
-			};
-			Timer t = new Timer(1000, updateClockAction);
-			t.start();
 			
 			txtClock.setEditable(false);
 			txtClock.setHorizontalAlignment(JTextField.CENTER);
 			txtClock.setFont(font);
-			
 			this.add(txtClock);
+		}
+		
+		public void updateClock(GregorianCalendar time) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+			txtClock.setText(dateFormat.format(time.getTime()));			
 		}
 	}
 	
