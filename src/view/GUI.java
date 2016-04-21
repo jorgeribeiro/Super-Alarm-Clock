@@ -189,9 +189,6 @@ public class GUI {
 			JPanel p = new JPanel();
 			
 			p.setLayout(new GridBagLayout());
-			p.add(new JTextField(15));
-			dialog.setupDialog(p, null);
-			
 			JTextArea area = new JTextArea(10,20);
 			JScrollPane sp = new JScrollPane(area); 
 			
@@ -330,15 +327,16 @@ public class GUI {
 								time.set(Calendar.AM_PM, Calendar.PM);
 							clock.setAlarm(Clock.SLEEP_ALARM, time);
 						}
+						dispose();
 					}
 					if(dialog == BED_DIALOG) {
-						
+						dispose();
 					}
 					if(dialog == AWAKE_DIALOG) {
-						
+						dispose();
 					}
 					if(dialog == STATUS_DIALOG) {
-						
+						dispose();
 					}
 					if(dialog == REPORT_DIALOG){
 						String info = "";
@@ -352,9 +350,13 @@ public class GUI {
 							info+="Telephone: " + aux.get(2).getText() + "\n";
 							ctrl.saveContactTxt(info);
 							JOptionPane.showMessageDialog(frame, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+							dispose();
 						}
 					}
-					dispose();
+					if(dialog==EVENT_DIALOG){
+						dispose();
+					}
+					//dispose();
 				}
 			});
 			
