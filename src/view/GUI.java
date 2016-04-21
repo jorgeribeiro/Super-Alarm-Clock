@@ -280,27 +280,31 @@ public class GUI {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if(dialog==ALARM_DIALOG){
-						
+						dispose();
 					}
 					if(dialog==BED_DIALOG){
-						
+						dispose();
 					}
 					if(dialog==AWAKE_DIALOG){
-						
+						dispose();
 					}
 					if(dialog==STATUS_DIALOG){
-						
+						dispose();
 					}
 					if(dialog==REPORT_DIALOG){
 						String info = "";
 						ArrayList<JTextField> aux = (ArrayList<JTextField>) data;
-						info+="Name: " + aux.get(0).getText() + "\n";
-						info+="Email: "+ aux.get(1).getText() + "\n";
-						info+="Telephone: " + aux.get(2).getText() + "\n";
-						ctrl.saveContactTxt(info);
-				
+						if( aux.get(0).getText().equals("")||aux.get(1).getText().equals("")||aux.get(2).getText().equals("")){
+							JOptionPane.showMessageDialog(frame, "All fields are required","Error",JOptionPane.ERROR_MESSAGE);
+						}
+						else{
+							info+="Name: " + aux.get(0).getText() + "\n";
+							info+="Email: "+ aux.get(1).getText() + "\n";
+							info+="Telephone: " + aux.get(2).getText() + "\n";
+							ctrl.saveContactTxt(info);
+							dispose();
+						}
 					}
-					dispose();
 				}
 			});
 			
