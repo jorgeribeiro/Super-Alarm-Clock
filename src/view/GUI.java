@@ -188,9 +188,27 @@ public class GUI {
 			NewDialog dialog = new NewDialog(frame, "Sleep status", Dialog.ModalityType.DOCUMENT_MODAL, STATUS_DIALOG);
 			JPanel p = new JPanel();
 			
+<<<<<<< HEAD
 			p.setLayout(new GridBagLayout());
 			p.add(new JTextField(15));
 			dialog.setupDialog(p, null);
+=======
+			JTextArea area = new JTextArea(10,20);
+			JScrollPane sp = new JScrollPane(area); 
+			
+			p.add(sp);
+			
+			String out = "";
+			
+			out = ctrl.retrieveData("status.txt");
+			if(out.equals("")){
+				out+="No status available for now!";
+			}
+			
+			area.setText(out);
+			
+			dialog.setupDialog(p,null);
+>>>>>>> origin/master
 		}
 		
 		private void setupSetReportContactDialog() {
@@ -283,6 +301,7 @@ public class GUI {
 			btnOk.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+<<<<<<< HEAD
 					if(dialog == ALARM_DIALOG) {
 						Component[] components = (Component[]) data;
 						JPanel pnlWakeUp = (JPanel) components[0];
@@ -327,8 +346,35 @@ public class GUI {
 					if(dialog == REPORT_DIALOG) {
 						ArrayList<JTextField> aux = (ArrayList<JTextField>) data;
 						ctrl.saveContactTxt(aux.get(0).getText(),aux.get(1).getText(),aux.get(2).getText());
+=======
+					if(dialog==ALARM_DIALOG){
+						dispose();
 					}
-					dispose();
+					if(dialog==BED_DIALOG){
+						dispose();
+					}
+					if(dialog==AWAKE_DIALOG){
+						dispose();
+					}
+					if(dialog==STATUS_DIALOG){
+						dispose();
+					}
+					if(dialog==REPORT_DIALOG){
+						String info = "";
+						ArrayList<JTextField> aux = (ArrayList<JTextField>) data;
+						if( aux.get(0).getText().equals("")||aux.get(1).getText().equals("")||aux.get(2).getText().equals("")){
+							JOptionPane.showMessageDialog(frame, "All fields are required","Error",JOptionPane.ERROR_MESSAGE);
+						}
+						else{
+							info+="Name: " + aux.get(0).getText() + "\n";
+							info+="Email: "+ aux.get(1).getText() + "\n";
+							info+="Telephone: " + aux.get(2).getText() + "\n";
+							ctrl.saveContactTxt(info);
+							JOptionPane.showMessageDialog(frame, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+						}
+>>>>>>> origin/master
+					}
 				}
 			});
 			

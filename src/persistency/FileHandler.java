@@ -1,22 +1,22 @@
 package persistency;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+
 
 import model.Contact;
 
 public class FileHandler {
+<<<<<<< HEAD
 	public void writeFile(String fileName, Contact contact) {
+=======
+	public void writeFile(String fileName,String info) {
+>>>>>>> origin/master
 	    FileWriter fileWriter;  
 	    BufferedWriter bufferedWriter; 
 		try {
 			fileWriter = new FileWriter(fileName);
 			bufferedWriter = new BufferedWriter(fileWriter); 
-			//Once writing objects are instantiated, the existing content of the file would be wiped out...
-			bufferedWriter.write("Name: " + contact.getName() + "\n");
-			bufferedWriter.write("Email: "+ contact.getEmail() + "\n");
-			bufferedWriter.write("Phone: "+ contact.getPhone()+ "\n");
+			bufferedWriter.write(info);
 			bufferedWriter.close();
         }
         catch(IOException ex) {
@@ -25,7 +25,22 @@ public class FileHandler {
         }
 	}
 	
-	public void readFile(String fileName) {
-		
+	public String readFile(String fileName) {
+		String toReturn = "";
+		String info = "";
+	        try {
+	            FileReader fileReader = new FileReader("dataTxt/"+ fileName);            
+	            BufferedReader bufferedReader = new BufferedReader(fileReader);//Wrap FileReader in BufferedReader.
+	            while((info= bufferedReader.readLine()) != null) {
+	            	toReturn+=info + "\n";
+	            } 
+	            bufferedReader.close();
+	            return toReturn;
+	        }
+	        catch(IOException ex) {
+	            System.out.println("Error reading file"); 
+	            ex.printStackTrace();                  
+	        }
+	        return toReturn;
 	}
 }

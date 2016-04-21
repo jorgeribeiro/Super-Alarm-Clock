@@ -55,12 +55,21 @@ public class Controller {
 		t.start();
 	}
 	
+<<<<<<< HEAD
 	 public void saveContactTxt(String name, String phone, String email){
 		contact.setName(name);
 		contact.setPhone(phone);
 		contact.setEmail(email);
 		fileHandler.writeFile("contact.txt", contact);
 	}
+=======
+	 public void saveContactTxt(String info){
+		fileHandler.writeFile("dataTxt/contact.txt",info);
+	 }
+	 public String retrieveData(String fileName){
+		 return fileHandler.readFile(fileName);
+	 }
+>>>>>>> origin/master
 	
 	public static void main(String[] args) {
 		new Controller();
