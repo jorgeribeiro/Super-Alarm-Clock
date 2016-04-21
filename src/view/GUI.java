@@ -184,9 +184,21 @@ public class GUI {
 			JPanel p = new JPanel();
 			p.setLayout(new GridBagLayout());
 			
-			p.add(new JTextField(15));
+			JTextArea area = new JTextArea(10,20);
+			JScrollPane sp = new JScrollPane(area); 
 			
-			dialog.setupDialog(p, null);
+			p.add(sp);
+			
+			String out = "";
+			
+			out = ctrl.retrieveData("status.txt");
+			if(out.equals("")){
+				out+="No status available for now!";
+			}
+			
+			area.setText(out);
+			
+			dialog.setupDialog(p,null);
 		}
 		
 		private void setupSetReportContactDialog() {

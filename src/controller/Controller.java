@@ -59,7 +59,10 @@ public class Controller {
 	
 	 public void saveContactTxt(String info){
 		fileHandler.writeFile("dataTxt/contact.txt",info);
-	}
+	 }
+	 public String retrieveData(String fileName){
+		 return fileHandler.readFile(fileName);
+	 }
 	
 	public static void main(String[] args) {
 		new Controller();

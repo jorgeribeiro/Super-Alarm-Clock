@@ -21,9 +21,9 @@ public class Clock {
 		Event redAlert = new RedAlert();
 		Event yellowAlert = new YellowAlert();
 		
-		GregorianCalendar wakeTime = new GregorianCalendar();
+		/*GregorianCalendar wakeTime = new GregorianCalendar();
 		wakeTime.add(GregorianCalendar.MINUTE, 2);
-		wakeAlarm.setTime(wakeTime);
+		wakeAlarm.setTime(wakeTime);*/
 		
 		events.add(wakeAlarm);
 		events.add(sleepAlarm);
