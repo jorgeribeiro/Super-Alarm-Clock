@@ -2,15 +2,8 @@ package persistency;
 
 import java.io.*;
 
-
-import model.Contact;
-
 public class FileHandler {
-<<<<<<< HEAD
-	public void writeFile(String fileName, Contact contact) {
-=======
-	public void writeFile(String fileName,String info) {
->>>>>>> origin/master
+	public void writeFile(String fileName, String info) {
 	    FileWriter fileWriter;  
 	    BufferedWriter bufferedWriter; 
 		try {
