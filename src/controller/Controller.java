@@ -34,7 +34,6 @@ public class Controller {
 		gui.updateClockPanel(clock.getTime()); // show machine time
 		ActionListener updateClockAction = new ActionListener() {
 			  public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				  new Thread(new Runnable() {
 					@Override
 					public void run() {
@@ -52,15 +51,6 @@ public class Controller {
 						});		
 					}
 				  }).start();
-=======
-				  clock.addTime(GregorianCalendar.MINUTE, 1);
-				  gui.updateClockPanel(clock.getTime());
-				  // test alarms every update
-				  String info = clock.testEvents();
-				  if(info.length() > 0) {
-					  //gui.setupEventDialog(info);
-				  }
->>>>>>> origin/master
 			  }
 		};
 		Timer t = new Timer(1000, updateClockAction); // keep counting
