@@ -4,9 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
+
+import controller.Controller;
 
 public class GUI {
 	private JFrame frame;
@@ -17,8 +20,9 @@ public class GUI {
 	private static final int STATUS_DIALOG 	= 4;
 	private static final int REPORT_DIALOG 	= 5;
 	private static final int EVENT_DIALOG   = 6;
+	Controller ctrl;
 	
-	public GUI() {}
+	public GUI(Controller c) {ctrl = c;}
 	
 	public void frameSetup() {
 		frame = new JFrame("Super Alarm Clock");
@@ -190,9 +194,15 @@ public class GUI {
 			JPanel p = new JPanel();
 			p.setLayout(new BorderLayout());
 			
+			
+			//ArrayList JtextField
+			ArrayList <JTextField> listText = new ArrayList<JTextField>(); 
 			JTextField txtName = new JTextField(15);
 			JTextField txtEmail = new JTextField(15);
 			JTextField txtPhone = new JTextField(15);
+			listText.add(txtName);
+			listText.add(txtEmail);
+			listText.add(txtPhone);
 			
 			// name options
 			JPanel pnlName = new JPanel();
@@ -210,7 +220,7 @@ public class GUI {
 			p.add(pnlName, BorderLayout.NORTH);
 			p.add(pnlEmail, BorderLayout.CENTER);
 			p.add(pnlPhone, BorderLayout.SOUTH);
-			dialog.setupDialog(p, txtName);
+			dialog.setupDialog(p,listText);
 		}
 	}
 
@@ -282,8 +292,9 @@ public class GUI {
 						
 					}
 					if(dialog==REPORT_DIALOG){
-						JTextField out = (JTextField) data;
-						System.out.println(out.getText());
+						ArrayList<JTextField> aux = (ArrayList<JTextField>) data;
+						ctrl.saveContactTxt(aux.get(0).getText(),aux.get(1).getText(),aux.get(2).getText());
+				
 					}
 					dispose();
 				}
@@ -293,6 +304,7 @@ public class GUI {
 			this.setLocationRelativeTo(null);
 			this.setVisible(true);
 		}
+		
 	}
 	
 }
