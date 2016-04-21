@@ -5,6 +5,8 @@ public class Student {
 	private String name;
 	private Contact contact;
 	
+	public Student() {}
+	
 	public Student(String iD, String name, Contact contact) {
 		super();
 		ID = iD;

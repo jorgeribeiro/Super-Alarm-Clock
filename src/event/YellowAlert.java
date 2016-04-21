@@ -1,11 +1,14 @@
 package event;
 
 public class YellowAlert extends Event {
+	
+	public YellowAlert() {
+		super();
+	}
 
 	@Override
-	public void Trigger() {
-		// TODO Auto-generated method stub
-		
+	public String Trigger() {
+		return Event.YELLOW_ALERT;
 	}
 
 }

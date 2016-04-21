@@ -1,11 +1,14 @@
 package event;
 
 public class WakeAlarm extends Event {
-
+	
+	public WakeAlarm() {
+		super();
+	}
+	
 	@Override
-	public void Trigger() {
-		// TODO Auto-generated method stub
-		
+	public String Trigger() {
+		return Event.WAKE_ALARM;
 	}
 
 }

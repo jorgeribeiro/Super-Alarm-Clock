@@ -1,17 +1,26 @@
 package event;
 
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public abstract class Event {
-	private Date time;
+	static final String WAKE_ALARM = "Time to wake up!";
+	static final String SLEEP_ALARM = "Time to go to bed";
+	static final String RED_ALERT = "Get ready to go to bed!";
+	static final String YELLOW_ALERT = "You must go to bed now!";
 	
-	public Date getTime() {
+	private GregorianCalendar time;
+	
+	public Event() {
+		time = new GregorianCalendar();
+	}
+	
+	public GregorianCalendar getTime() {
 		return time;
 	}
 
-	public void setTime(Date time) {
+	public void setTime(GregorianCalendar time) {
 		this.time = time;
 	}
 
-	public abstract void Trigger();
+	public abstract String Trigger();
 }
