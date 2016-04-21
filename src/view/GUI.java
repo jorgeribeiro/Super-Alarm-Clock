@@ -213,7 +213,7 @@ public class GUI {
 			dialog.setupDialog(p, txtName);
 		}
 	}
-	
+
 	public void setupEventDialog(String info) {
 		NewDialog dialog = new NewDialog(frame, "Alert", Dialog.ModalityType.DOCUMENT_MODAL, EVENT_DIALOG);
 		JPanel p = new JPanel();
@@ -241,7 +241,7 @@ public class GUI {
 		
 		public void updateClock(GregorianCalendar time) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-			txtClock.setText(dateFormat.format(time.getTime()));			
+			txtClock.setText(dateFormat.format(time.getTime()));	
 		}
 	}
 	

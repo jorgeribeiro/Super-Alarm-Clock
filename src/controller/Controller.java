@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 import model.*;
@@ -25,20 +27,30 @@ public class Controller {
 		fileHandler = new FileHandler();
 		
 		gui.frameSetup();
-		setupClock();
+    	setupClock();
 	}
 	
 	private void setupClock() {
 		gui.updateClockPanel(clock.getTime()); // show machine time
 		ActionListener updateClockAction = new ActionListener() {
 			  public void actionPerformed(ActionEvent e) {
-				  clock.addTime(GregorianCalendar.MINUTE, 1);
-				  gui.updateClockPanel(clock.getTime());
-				  // test alarms every update
-				  String info = clock.testEvents();
-				  if(info.length() > 0) {
-					  gui.setupEventDialog(info);
-				  }
+				  new Thread(new Runnable() {
+					@Override
+					public void run() {
+						clock.addTime(GregorianCalendar.MINUTE, 1);
+						SwingUtilities.invokeLater(new Runnable() {
+							@Override
+							public void run() {
+								gui.updateClockPanel(clock.getTime());
+								// test alarms every update
+								String info = clock.testEvents();
+								if(info.length() > 0) {
+									gui.setupEventDialog(info);
+								}
+							}
+						});		
+					}
+				  }).start();
 			  }
 		};
 		Timer t = new Timer(1000, updateClockAction); // keep counting
