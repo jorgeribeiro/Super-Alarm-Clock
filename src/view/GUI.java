@@ -150,7 +150,7 @@ public class GUI {
 			
 			p.add(pnlWakeUp, BorderLayout.CENTER);
 			p.add(pnlSleep, BorderLayout.SOUTH);
-			dialog.setupDialog(p);
+			dialog.setupDialog(p,null);
 		}
 		
 		private void setupGoingToBedDialog() {
@@ -160,7 +160,7 @@ public class GUI {
 			
 			p.add(new JLabel("Data recorded! Have a good night."));
 			
-			dialog.setupDialog(p);
+			dialog.setupDialog(p,null);
 		}
 		
 		private void setupAwakeDialog() {
@@ -170,7 +170,7 @@ public class GUI {
 			
 			p.add(new JLabel("Data recorded! Have a good day."));
 			
-			dialog.setupDialog(p);
+			dialog.setupDialog(p,null);
 		}
 		
 		private void setupSleepStatusDialog() {
@@ -180,7 +180,7 @@ public class GUI {
 			
 			p.add(new JTextField(15));
 			
-			dialog.setupDialog(p);
+			dialog.setupDialog(p,null);
 		}
 		
 		private void setupSetReportContactDialog() {
@@ -208,7 +208,7 @@ public class GUI {
 			p.add(pnlName, BorderLayout.NORTH);
 			p.add(pnlEmail, BorderLayout.CENTER);
 			p.add(pnlPhone, BorderLayout.SOUTH);
-			dialog.setupDialog(p);
+			dialog.setupDialog(p,txtName);
 		}
 	}
 
@@ -260,7 +260,7 @@ public class GUI {
 			dialog = dialogType;
 		}
 		
-		public void setupDialog(JPanel panel) {
+		public void setupDialog(JPanel panel,Object data) {
 			container = this.getContentPane();
 			btnOk = new JButton("OK");
 			JPanel btn = new JPanel();
@@ -285,7 +285,8 @@ public class GUI {
 						
 					}
 					if(dialog==REPORT_DIALOG){
-						System.out.println("Xau");
+						JTextField out = (JTextField) data;
+						System.out.println(out.getText());
 					}
 					dispose();
 				}
