@@ -18,7 +18,7 @@ public class Controller {
 	private static FileHandler fileHandler;
 	
 	public Controller() {
-		gui = new GUI();
+		gui = new GUI(this);
 		clock = new Clock();
 		user = new Student();
 		contact = new Contact();
@@ -37,12 +37,19 @@ public class Controller {
 				  // test alarms every update
 				  String info = clock.testEvents();
 				  if(info.length() > 0) {
-					  gui.setupEventDialog(info);
+					  //gui.setupEventDialog(info);
 				  }
 			  }
 		};
 		Timer t = new Timer(1000, updateClockAction); // keep counting
 		t.start();
+	}
+	
+	 public void saveContactTxt(String name,String phone,String email){
+		contact.setName(name);
+		contact.setPhone(phone);
+		contact.setEmail(email);
+		fileHandler.writeFile("contact.txt", contact);
 	}
 	
 	public static void main(String[] args) {
