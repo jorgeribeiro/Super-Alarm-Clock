@@ -8,6 +8,7 @@ import event.*;
 public class Clock {
 	private GregorianCalendar time;
 	private ArrayList<Event> events;
+	
 	public static final int WAKE_ALARM   = 0;
 	public static final int SLEEP_ALARM  = 1;
 	public static final int RED_ALERT    = 2;
@@ -42,6 +43,10 @@ public class Clock {
 	public void addTime(int field, int amount) {
 		time.add(field, amount);
 	}
+	
+	public void addTime(int index, int field, int amount) {
+		events.get(index).getTime().add(field, amount);
+	}
 
 	public ArrayList<Event> getEvents() {
 		return events;
@@ -55,7 +60,7 @@ public class Clock {
 		events.get(index).setTime(time);
 	}
 	
-	public String testEvents() {
+	public String checkEvents() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 		String systemClock = dateFormat.format(time.getTime());
 		for(Event e : events) {

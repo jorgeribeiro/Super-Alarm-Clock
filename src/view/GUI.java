@@ -16,7 +16,7 @@ import model.Clock;
 public class GUI {
 	private JFrame frame;
 	private JPanel btnPanel, clockPanel;
-	private Controller ctrl;
+	private Controller ctrl; // get rid	
 	private Clock clock;
 	
 	private static final int ALARM_DIALOG 	= 1;
@@ -29,8 +29,33 @@ public class GUI {
 	public GUI(Controller ctrl, Clock clock) {
 		this.ctrl = ctrl;
 		this.clock = clock;
+		frameSetup();
 	}
 	
+	public JFrame getFrame() {
+		return frame;
+	}
+	
+	public void addSetAlarmListener(ActionListener l) {
+		((ButtonPanel) btnPanel).addSetAlarmListener(l);
+	}
+	
+	public void addGoingToBedListener(ActionListener l) {
+		((ButtonPanel) btnPanel).addGoingToBedListener(l);
+	}
+	
+	public void addAwakeListener(ActionListener l) {
+		((ButtonPanel) btnPanel).addAwakeListener(l);
+	}
+	
+	public void addSleepStatusListener(ActionListener l) {
+		((ButtonPanel) btnPanel).addSleepStatusListener(l);
+	}
+	
+	public void addSetReportContactListener(ActionListener l) {
+		((ButtonPanel) btnPanel).addSetReportContactListener(l);
+	}
+
 	public void frameSetup() {
 		frame = new JFrame("Super Alarm Clock");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,22 +76,30 @@ public class GUI {
 		((ClockPanel) clockPanel).updateClock(time);
 	}
 	
+	public void setupEventDialog(String info) {
+		NewDialog dialog = new NewDialog(frame, "Alert", Dialog.ModalityType.DOCUMENT_MODAL, EVENT_DIALOG);
+		JPanel p = new JPanel();
+		
+		p.setLayout(new GridBagLayout());
+		p.add(new JLabel(info));
+		dialog.setupDialog(p, null);
+	}
+	
 	class ButtonPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 		
-		JButton btnSetAlarm;
-		JButton btnGoingToBed;
-		JButton btnAwake;
-		JButton btnSleepStatus;
-		JButton btnSetReportContact;
-		JDialog dlgSetAlarm;
+		private JButton btnSetAlarm;
+		private JButton btnGoingToBed;
+		private JButton btnAwake;
+		private JButton btnSleepStatus;
+		private JButton btnSetReportContact;
 		
 		public ButtonPanel() {
 			setup();
 		}
-		
+
 		private void setup() {
-			btnSetAlarm = new JButton("Set Alarm");
+			btnSetAlarm = new JButton("Set alarm");
 			btnGoingToBed = new JButton("Going to bed");
 			btnAwake = new JButton("I am awake");
 			btnSleepStatus = new JButton("Check sleep status");
@@ -89,164 +122,27 @@ public class GUI {
 											5, 1, 
 											6, 6, 
 											6, 6);
-			
-			btnSetAlarm.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					setupSetAlarmDialog();
-				}
-			});
-			
-			btnGoingToBed.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					setupGoingToBedDialog();
-				}
-			});
-			
-			btnAwake.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					setupAwakeDialog();
-				}
-			});
-			
-			btnSleepStatus.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					setupSleepStatusDialog();
-				}
-			});
-			
-			btnSetReportContact.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					setupSetReportContactDialog();
-				}
-			});
 		}
 		
-		@SuppressWarnings({ "unchecked", "rawtypes" })
-		private void setupSetAlarmDialog() {
-			NewDialog dialog = new NewDialog(frame, "Set Alarm", Dialog.ModalityType.DOCUMENT_MODAL, ALARM_DIALOG);
-			JPanel p = new JPanel();
-			p.setLayout(new BorderLayout());
-			
-			String[] times = {"am", "pm"};
-			JTextField txtWakeUpH = new JTextField(2);
-			JTextField txtWakeUpM = new JTextField(3);
-			JTextField txtSleepH = new JTextField(2);
-			JTextField txtSleepM = new JTextField(3);
-			JComboBox comboWakeUp = new JComboBox(times);
-			JComboBox comboSleep = new JComboBox(times);
-			comboSleep.setSelectedIndex(1);
-			JCheckBox cbWakeUp = new JCheckBox("ON/OFF");
-			JCheckBox cbSleep = new JCheckBox("ON/OFF");
-			
-			// wake up options
-			JPanel pnlWakeUp = new JPanel();
-			pnlWakeUp.add(new JLabel("Wake up"));
-			pnlWakeUp.add(txtWakeUpH);
-			pnlWakeUp.add(new JLabel(":"));
-			pnlWakeUp.add(txtWakeUpM);
-			pnlWakeUp.add(comboWakeUp);
-			pnlWakeUp.add(cbWakeUp);
-			// sleep options
-			JPanel pnlSleep = new JPanel();
-			pnlSleep.add(new JLabel("      Sleep"));
-			pnlSleep.add(txtSleepH);
-			pnlSleep.add(new JLabel(":"));
-			pnlSleep.add(txtSleepM);
-			pnlSleep.add(comboSleep);
-			pnlSleep.add(cbSleep);
-			
-			p.add(pnlWakeUp, BorderLayout.CENTER);
-			p.add(pnlSleep, BorderLayout.SOUTH);
-			Component[] components = p.getComponents();
-			dialog.setupDialog(p, components);
+		public void addSetAlarmListener(ActionListener l) {
+			btnSetAlarm.addActionListener(l);
 		}
 		
-		private void setupGoingToBedDialog() {
-			NewDialog dialog = new NewDialog(frame, "Going to bed", Dialog.ModalityType.DOCUMENT_MODAL, BED_DIALOG);
-			JPanel p = new JPanel();
-			
-			p.setLayout(new GridBagLayout());
-			p.add(new JLabel(" Data recorded! Have a good night. "));
-			dialog.setupDialog(p, null);
+		public void addGoingToBedListener(ActionListener l) {
+			btnGoingToBed.addActionListener(l);
 		}
 		
-		private void setupAwakeDialog() {
-			NewDialog dialog = new NewDialog(frame, "I am awake", Dialog.ModalityType.DOCUMENT_MODAL, AWAKE_DIALOG);
-			JPanel p = new JPanel();
-			
-			p.setLayout(new GridBagLayout());
-			p.add(new JLabel(" Data recorded! Have a good day. "));
-			dialog.setupDialog(p, null);
+		public void addAwakeListener(ActionListener l) {
+			btnAwake.addActionListener(l);
 		}
 		
-		private void setupSleepStatusDialog() {
-			NewDialog dialog = new NewDialog(frame, "Sleep status", Dialog.ModalityType.DOCUMENT_MODAL, STATUS_DIALOG);
-			JPanel p = new JPanel();
-			
-			p.setLayout(new GridBagLayout());
-			JTextArea area = new JTextArea(10,20);
-			JScrollPane sp = new JScrollPane(area); 
-			
-			p.add(sp);
-			
-			String out = "";
-			
-			out = ctrl.retrieveData("status.txt");
-			if(out.equals("")){
-				out+="No status available for now!";
-			}
-			
-			area.setText(out);
-			
-			dialog.setupDialog(p,null);
+		public void addSleepStatusListener(ActionListener l) {
+			btnSleepStatus.addActionListener(l);
 		}
 		
-		private void setupSetReportContactDialog() {
-			NewDialog dialog = new NewDialog(frame, "Set report contact", Dialog.ModalityType.DOCUMENT_MODAL, REPORT_DIALOG);
-			JPanel p = new JPanel();
-			p.setLayout(new BorderLayout());
-			
-			//ArrayList JtextField
-			ArrayList <JTextField> listText = new ArrayList<JTextField>(); 
-			JTextField txtName = new JTextField(15);
-			JTextField txtEmail = new JTextField(15);
-			JTextField txtPhone = new JTextField(15);
-			listText.add(txtName);
-			listText.add(txtEmail);
-			listText.add(txtPhone);
-			
-			// name options
-			JPanel pnlName = new JPanel();
-			pnlName.add(new JLabel("Name"));
-			pnlName.add(txtName);
-			// email options
-			JPanel pnlEmail = new JPanel();
-			pnlEmail.add(new JLabel("Email"));
-			pnlEmail.add(txtEmail);
-			// phone options
-			JPanel pnlPhone = new JPanel();
-			pnlPhone.add(new JLabel("Phone"));
-			pnlPhone.add(txtPhone);
-			
-			p.add(pnlName, BorderLayout.NORTH);
-			p.add(pnlEmail, BorderLayout.CENTER);
-			p.add(pnlPhone, BorderLayout.SOUTH);
-			dialog.setupDialog(p,listText);
+		public void addSetReportContactListener(ActionListener l) {
+			btnSetReportContact.addActionListener(l);
 		}
-	}
-
-	public void setupEventDialog(String info) {
-		NewDialog dialog = new NewDialog(frame, "Alert", Dialog.ModalityType.DOCUMENT_MODAL, EVENT_DIALOG);
-		JPanel p = new JPanel();
-		
-		p.setLayout(new GridBagLayout());
-		p.add(new JLabel(info));
-		dialog.setupDialog(p, null);
 	}
 
 	class ClockPanel extends JPanel {
