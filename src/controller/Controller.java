@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -65,14 +66,6 @@ public class Controller {
 		};
 		Timer t = new Timer(1000, updateClockAction); // keep counting
 		t.start();
-	}
-	
-	public void saveContactTxt(String info){
-		fileHandler.writeFile("dataTxt/contact.txt",info);
-	}
-	
-	public String retrieveData(String fileName){
-		return fileHandler.readFile(fileName);
 	}
 	
 	public static void main(String[] args) {
@@ -137,7 +130,8 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK Going to bed Pressed");
+				fileHandler.writeFile("goToBed.txt",clock.getTimeStamp(),true);
+				dialogGoingToBed.dispose();
 			}
 		}
 	}
@@ -162,12 +156,14 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogSleepStatus = new SleepStatusDialog(gui.getFrame(), "Check sleep status", new ButtonOKListener());
+			String sleepStatus = fileHandler.readFile("status.txt");
+			dialogSleepStatus.setTxtReport(sleepStatus);
 		}
 
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK Sleep status Pressed");
+				dialogSleepStatus.dispose();
 			}
 		}
 	}
@@ -182,7 +178,18 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK Report contact Pressed");
+				String infoContact = "";
+				if(dialogReportContact.getTxtName().equals("")||dialogReportContact.getTxtEmail().equals("")||dialogReportContact.getTxtPhone().equals("")){
+					JOptionPane.showMessageDialog(dialogReportContact, "All fields are required","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					infoContact += "Name: "      + dialogReportContact.getTxtName()  + "\n";
+					infoContact += "Email: "     + dialogReportContact.getTxtEmail() + "\n";
+					infoContact += "Telephone: " + dialogReportContact.getTxtPhone() + "\n";
+					fileHandler.writeFile("contactInfo.txt", infoContact,false);
+					JOptionPane.showMessageDialog(dialogReportContact, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+					dialogReportContact.dispose();
+				}
 			}
 		}
 	}

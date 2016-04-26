@@ -216,7 +216,7 @@ public class GUI {
 							info+="Name: " + aux.get(0).getText() + "\n";
 							info+="Email: "+ aux.get(1).getText() + "\n";
 							info+="Telephone: " + aux.get(2).getText() + "\n";
-							ctrl.saveContactTxt(info);
+							//ctrl.saveContactTxt(info);
 							JOptionPane.showMessageDialog(frame, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}

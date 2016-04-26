@@ -3,11 +3,11 @@ package persistency;
 import java.io.*;
 
 public class FileHandler {
-	public void writeFile(String fileName, String info) {
+	public void writeFile(String fileName, String info,boolean update) {
 	    FileWriter fileWriter;  
 	    BufferedWriter bufferedWriter; 
 		try {
-			fileWriter = new FileWriter(fileName);
+			fileWriter = new FileWriter("data/" + fileName,update);
 			bufferedWriter = new BufferedWriter(fileWriter); 
 			bufferedWriter.write(info);
 			bufferedWriter.close();
@@ -22,7 +22,7 @@ public class FileHandler {
 		String toReturn = "";
 		String info = "";
 	        try {
-	            FileReader fileReader = new FileReader("dataTxt/"+ fileName);            
+	            FileReader fileReader = new FileReader("data/"+ fileName);            
 	            BufferedReader bufferedReader = new BufferedReader(fileReader);//Wrap FileReader in BufferedReader.
 	            while((info= bufferedReader.readLine()) != null) {
 	            	toReturn+=info + "\n";
