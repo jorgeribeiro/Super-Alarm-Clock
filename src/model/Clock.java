@@ -2,7 +2,6 @@ package model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import event.*;
 
@@ -49,6 +48,11 @@ public class Clock {
 		events.set(index, event);
 	}
 	
+	public String getTimeStamp() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+		return dateFormat.format(time.getTime()) + "\n";
+	}
+	
 	public String checkEvents() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 		String systemClock = dateFormat.format(time.getTime());
@@ -66,10 +70,5 @@ public class Clock {
 	public String toString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 		return dateFormat.format(time.getTime());
-	}
-	
-	public String getTimeStamp(){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-		return dateFormat.format(time.getTime()) + "\n";
 	}
 }

@@ -3,7 +3,7 @@ package persistency;
 import java.io.*;
 
 public class FileHandler {
-	public void writeFile(String fileName, String info,boolean update) {
+	public void writeFile(String fileName, String info, boolean update) {
 	    FileWriter fileWriter;  
 	    BufferedWriter bufferedWriter; 
 		try {
@@ -25,7 +25,7 @@ public class FileHandler {
 	            FileReader fileReader = new FileReader("data/"+ fileName);            
 	            BufferedReader bufferedReader = new BufferedReader(fileReader);//Wrap FileReader in BufferedReader.
 	            while((info= bufferedReader.readLine()) != null) {
-	            	toReturn+=info + "\n";
+	            	toReturn += info + "\n";
 	            } 
 	            bufferedReader.close();
 	            return toReturn;

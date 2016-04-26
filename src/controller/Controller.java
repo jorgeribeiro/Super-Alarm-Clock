@@ -70,26 +70,12 @@ public class Controller {
 		t.start();
 	}
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
 	private Color setFontColor(String info) {
 		if(info.equals(Event.RED_ALERT)) return new Color(255, 0, 0);
 		else if(info.equals(Event.YELLOW_ALERT)) return new Color(204, 204, 0);
 		else return new Color(0, 0, 0);
 	}
 	
-	public void saveContactTxt(String info){
-		fileHandler.writeFile("dataTxt/contact.txt",info);
-	}
-	
-	public String retrieveData(String fileName){
-		return fileHandler.readFile(fileName);
-	}
-	
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 	public static void main(String[] args) {
 		new Controller();
 	}
@@ -167,14 +153,8 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 				fileHandler.writeFile("bedTime.txt",clock.getTimeStamp(),true);
->>>>>>> origin/master
-=======
 				fileHandler.writeFile("bedTime.txt",clock.getTimeStamp(),true);
->>>>>>> origin/master
 				dialogGoingToBed.dispose();
 			}
 		}
@@ -190,14 +170,8 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 				fileHandler.writeFile("awakeTime.txt",clock.getTimeStamp(),true);
->>>>>>> origin/master
-=======
 				fileHandler.writeFile("awakeTime.txt",clock.getTimeStamp(),true);
->>>>>>> origin/master
 				dialogAwake.dispose();
 			}
 		}
@@ -205,6 +179,7 @@ public class Controller {
 	
 	class SleepStatusListener implements ActionListener {
 		SleepStatusDialog dialogSleepStatus;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogSleepStatus = new SleepStatusDialog(gui.getFrame(), "Check sleep status", new ButtonOKListener());
@@ -222,6 +197,7 @@ public class Controller {
 	
 	class SetReportContactListener implements ActionListener {
 		ReportContactDialog dialogReportContact;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogReportContact = new ReportContactDialog(gui.getFrame(), "Set report contact", new ButtonOKListener());
@@ -230,8 +206,19 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-<<<<<<< HEAD
+				String infoContact = "";
+				if(dialogReportContact.getTxtName().equals("") || dialogReportContact.getTxtEmail().equals("") 
+						|| dialogReportContact.getTxtPhone().equals("")) {
+					JOptionPane.showMessageDialog(dialogReportContact, "All fields are required", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else {
+					infoContact += "Name: "      + dialogReportContact.getTxtName()  + "\n";
+					infoContact += "Email: "     + dialogReportContact.getTxtEmail() + "\n";
+					infoContact += "Telephone: " + dialogReportContact.getTxtPhone() + "\n";
+					fileHandler.writeFile("contactInfo.txt", infoContact, false);
+					JOptionPane.showMessageDialog(dialogReportContact, "Data recorded successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+					dialogReportContact.dispose();
+				}
 				dialogReportContact.dispose();
 			}
 		}
@@ -257,25 +244,6 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dialogEvent.dispose();
-=======
-=======
->>>>>>> origin/master
-				String infoContact = "";
-				if(dialogReportContact.getTxtName().equals("")||dialogReportContact.getTxtEmail().equals("")||dialogReportContact.getTxtPhone().equals("")){
-					JOptionPane.showMessageDialog(dialogReportContact, "All fields are required","Error",JOptionPane.ERROR_MESSAGE);
-				}
-				else{
-					infoContact += "Name: "      + dialogReportContact.getTxtName()  + "\n";
-					infoContact += "Email: "     + dialogReportContact.getTxtEmail() + "\n";
-					infoContact += "Telephone: " + dialogReportContact.getTxtPhone() + "\n";
-					fileHandler.writeFile("contactInfo.txt", infoContact,false);
-					JOptionPane.showMessageDialog(dialogReportContact, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
-					dialogReportContact.dispose();
-				}
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> origin/master
 			}
 		}
 	}
