@@ -132,7 +132,6 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogGoingToBed = new GoingToBedDialog(gui.getFrame(), "Going to bed", new ButtonOKListener());
-			if(dialogGoingToBed.isActive()) { System.out.println("Going to bed Closed"); }
 		}
 		
 		class ButtonOKListener implements ActionListener {
@@ -148,7 +147,6 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogAwake = new AwakeDialog(gui.getFrame(), "I am awake", new ButtonOKListener());
-			if(dialogAwake.isActive()) { System.out.println("Awake Closed"); }
 		}
 
 		class ButtonOKListener implements ActionListener {
@@ -164,7 +162,6 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogSleepStatus = new SleepStatusDialog(gui.getFrame(), "Check sleep status", new ButtonOKListener());
-			if(dialogSleepStatus.isActive()) { System.out.println("Sleep status Closed"); }
 		}
 
 		class ButtonOKListener implements ActionListener {
@@ -180,7 +177,6 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogReportContact = new ReportContactDialog(gui.getFrame(), "Set report contact", new ButtonOKListener());
-			if(dialogReportContact.isActive()) { System.out.println("Set report contact Closed"); }
 		}
 
 		class ButtonOKListener implements ActionListener {
