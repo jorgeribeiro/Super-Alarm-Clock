@@ -3,10 +3,10 @@ package event;
 import java.util.GregorianCalendar;
 
 public abstract class Event {
-	static final String WAKE_ALARM   = "Time to wake up!";
-	static final String SLEEP_ALARM  = "Time to go to bed!";
-	static final String RED_ALERT    = "Get ready to go to bed!";
-	static final String YELLOW_ALERT = "You must go to bed now!";
+	public static final String WAKE_ALARM   = " Time to wake up! ";
+	public static final String SLEEP_ALARM  = " Time to go to bed! ";
+	public static final String RED_ALERT    = " You must go to bed now! ";
+	public static final String YELLOW_ALERT = " Get ready to go to bed! ";
 	
 	private GregorianCalendar time;
 	

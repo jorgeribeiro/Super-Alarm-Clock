@@ -1,29 +1,17 @@
 package view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
-import controller.Controller;
-
 public class GUI {
 	private JFrame frame;
 	private JPanel btnPanel, clockPanel;
-	private Controller ctrl; // get rid	
 	
-	private static final int BED_DIALOG 	= 2;
-	private static final int AWAKE_DIALOG 	= 3;
-	private static final int STATUS_DIALOG 	= 4;
-	private static final int REPORT_DIALOG 	= 5;
-	private static final int EVENT_DIALOG   = 6;
-	
-	public GUI(Controller ctrl) {
-		this.ctrl = ctrl;
+	public GUI() {
 		frameSetup();
 	}
 	
@@ -51,8 +39,8 @@ public class GUI {
 		((ButtonPanel) btnPanel).addSetReportContactListener(l);
 	}
 	
-	public void setButtonPanelStatus(boolean b) {
-		((ButtonPanel) btnPanel).setPanelStatus(b);
+	public void updateClockPanel(GregorianCalendar time) {
+		((ClockPanel) clockPanel).updateClock(time);
 	}
 
 	public void frameSetup() {
@@ -69,19 +57,6 @@ public class GUI {
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-	}
-	
-	public void updateClockPanel(GregorianCalendar time) {
-		((ClockPanel) clockPanel).updateClock(time);
-	}
-	
-	public void setupEventDialog(String info) {
-		NewDialog dialog = new NewDialog(frame, "Alert", Dialog.ModalityType.DOCUMENT_MODAL, EVENT_DIALOG);
-		JPanel p = new JPanel();
-		
-		p.setLayout(new GridBagLayout());
-		p.add(new JLabel(info));
-		dialog.setupDialog(p, null);
 	}
 	
 	class ButtonPanel extends JPanel {
@@ -142,12 +117,6 @@ public class GUI {
 		public void addSetReportContactListener(ActionListener l) {
 			btnSetReportContact.addActionListener(l);
 		}
-		
-		public void setPanelStatus(boolean b) {
-			Component[] components = this.getComponents();
-			for(Component c : components)
-				c.setEnabled(b);
-		}
 	}
 
 	class ClockPanel extends JPanel {
@@ -170,69 +139,5 @@ public class GUI {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 			txtClock.setText(dateFormat.format(time.getTime()));	
 		}
-	}
-	
-	class NewDialog extends JDialog {
-		private static final long serialVersionUID = 1L;
-		
-		Container container;
-		JButton btnOk;
-		int dialog;
-		
-		public NewDialog(Window owner, String title, Dialog.ModalityType modalityType,int dialogType) {
-			super(owner, title, modalityType);
-			dialog = dialogType;
-		}
-		
-		@SuppressWarnings("unchecked")
-		public void setupDialog(JPanel panel, Object data) {
-			container = this.getContentPane();
-			btnOk = new JButton("OK");
-			JPanel btn = new JPanel();
-			btn.setLayout(new FlowLayout());
-			btn.add(btnOk);
-			container.add(panel, BorderLayout.CENTER);
-			container.add(btn, BorderLayout.SOUTH);
-			
-			btnOk.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if(dialog == BED_DIALOG) {
-						dispose();
-					}
-					if(dialog == AWAKE_DIALOG) {
-						dispose();
-					}
-					if(dialog == STATUS_DIALOG) {
-						dispose();
-					}
-					if(dialog == REPORT_DIALOG){
-						String info = "";
-						ArrayList<JTextField> aux = (ArrayList<JTextField>) data;
-						if( aux.get(0).getText().equals("")||aux.get(1).getText().equals("")||aux.get(2).getText().equals("")){
-							JOptionPane.showMessageDialog(frame, "All fields are required","Error",JOptionPane.ERROR_MESSAGE);
-						}
-						else{
-							info+="Name: " + aux.get(0).getText() + "\n";
-							info+="Email: "+ aux.get(1).getText() + "\n";
-							info+="Telephone: " + aux.get(2).getText() + "\n";
-							ctrl.saveContactTxt(info);
-							JOptionPane.showMessageDialog(frame, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
-							dispose();
-						}
-					}
-					if(dialog==EVENT_DIALOG){
-						dispose();
-					}
-					//dispose();
-				}
-			});
-			
-			this.pack();
-			this.setLocationRelativeTo(null);
-			this.setVisible(true);
-		}
-		
-	}
-	
+	}	
 }

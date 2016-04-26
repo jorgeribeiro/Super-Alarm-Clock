@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -8,6 +9,7 @@ import java.util.GregorianCalendar;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import event.Event;
 import event.EventFactory;
 import model.*;
 import persistency.FileHandler;
@@ -27,7 +29,7 @@ public class Controller {
 		//user = new Student();
 		//contact = new Contact();
 		fileHandler = new FileHandler();
-		gui = new GUI(this);
+		gui = new GUI();
     	setupClock();
     	
     	gui.addSetAlarmListener(new SetAlarmListener());
@@ -54,8 +56,8 @@ public class Controller {
 							public void run() {
 								gui.updateClockPanel(clock.getTime());
 								String info = clock.checkEvents();
-								if(info.length() > 0) { 
-									gui.setupEventDialog(info); // check alarms every update
+								if(info.length() > 0) {
+									new EventListener(info, setFontColor(info)).actionPerformed(e);
 								}
 							}
 						});		
@@ -65,6 +67,12 @@ public class Controller {
 		};
 		Timer t = new Timer(1000, updateClockAction); // keep counting
 		t.start();
+	}
+	
+	private Color setFontColor(String info) {
+		if(info.equals(Event.RED_ALERT)) return new Color(255, 0, 0);
+		else if(info.equals(Event.YELLOW_ALERT)) return new Color(204, 204, 0);
+		else return new Color(0, 0, 0);
 	}
 	
 	public void saveContactTxt(String info){
@@ -93,15 +101,15 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setAlarm();
-				dialogSetAlarm.dispose();
+				setAlarms();
 			}
 			
-			private void setAlarm() {
+			private void setAlarms() {
 				GregorianCalendar timeWakeUp;
 				GregorianCalendar timeSleep;
+				
 				// set wake up alarm
-				if(dialogSetAlarm.isCbWakeUpSelected()) {
+				if(!dialogSetAlarm.getTxtWakeUpHour().equals("") && !dialogSetAlarm.getTxtWakeUpMin().equals("")) {
 					timeWakeUp = new GregorianCalendar(1, 1, 1,
 							Integer.parseInt(dialogSetAlarm.getTxtWakeUpHour()), 
 							Integer.parseInt(dialogSetAlarm.getTxtWakeUpMin()));
@@ -113,7 +121,7 @@ public class Controller {
 				}
 				
 				// set sleep alarm
-				if(dialogSetAlarm.isCbSleepSelected()) {
+				if(!dialogSetAlarm.getTxtSleepHour().equals("") && !dialogSetAlarm.getTxtSleepMin().equals("")) {
 					timeSleep = new GregorianCalendar(1, 1, 1,
 							Integer.parseInt(dialogSetAlarm.getTxtSleepHour()), 
 							Integer.parseInt(dialogSetAlarm.getTxtSleepMin()));
@@ -122,7 +130,22 @@ public class Controller {
 					else
 						timeSleep.set(Calendar.AM_PM, Calendar.PM);
 					clock.setEvent(Clock.SLEEP_ALARM, eventFactory.getEvent(Clock.SLEEP_ALARM, timeSleep));
+					setAlerts(timeSleep);
 				}
+				dialogSetAlarm.dispose();
+			}
+			
+			private void setAlerts(GregorianCalendar timeSleep) {
+				GregorianCalendar redAlert = new GregorianCalendar(1, 1, 1, 
+						timeSleep.get(Calendar.HOUR), timeSleep.get(Calendar.MINUTE) + 10);
+				redAlert.set(Calendar.AM_PM, timeSleep.get(Calendar.AM_PM));
+				GregorianCalendar yellowAlert = new GregorianCalendar(1, 1, 1, 
+						timeSleep.get(Calendar.HOUR), timeSleep.get(Calendar.MINUTE) - 10);
+				
+				redAlert.set(Calendar.AM_PM, timeSleep.get(Calendar.AM_PM));
+				yellowAlert.set(Calendar.AM_PM, timeSleep.get(Calendar.AM_PM));
+				clock.setEvent(Clock.RED_ALERT, eventFactory.getEvent(Clock.RED_ALERT, redAlert));
+				clock.setEvent(Clock.YELLOW_ALERT, eventFactory.getEvent(Clock.YELLOW_ALERT, yellowAlert));
 			}
 		}
 	}
@@ -137,7 +160,7 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK Going to bed Pressed");
+				dialogGoingToBed.dispose();
 			}
 		}
 	}
@@ -152,7 +175,7 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK I am awake Pressed");
+				dialogAwake.dispose();
 			}
 		}
 	}
@@ -167,7 +190,7 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK Sleep status Pressed");
+				dialogSleepStatus.dispose();
 			}
 		}
 	}
@@ -182,7 +205,31 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK Report contact Pressed");
+				dialogReportContact.dispose();
+			}
+		}
+	}
+	
+	class EventListener implements ActionListener {
+		EventDialog dialogEvent;
+		String info;
+		Color fontColor;
+		
+		public EventListener(String info, Color fontColor) {
+			super();
+			this.info = info;
+			this.fontColor = fontColor;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			 dialogEvent = new EventDialog(gui.getFrame(), "Alert", new ButtonOKListener(), info, fontColor);
+		}
+		
+		class ButtonOKListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dialogEvent.dispose();
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.Window;
@@ -9,11 +10,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class AwakeDialog extends Dialog {
+public class EventDialog extends Dialog {
 	private static final long serialVersionUID = 1L;
-
-	public AwakeDialog(Window owner, String title, ActionListener l) {
+	
+	String info;
+	Color color;
+	
+	public EventDialog(Window owner, String title, ActionListener l, String info, Color color) {
 		super(owner, title, l);
+		this.info = info;
+		this.color = color;
 		setupDialog();
 	}
 
@@ -24,7 +30,9 @@ public class AwakeDialog extends Dialog {
 		contentPanel.setLayout(new GridBagLayout());
 		btnPanel.setLayout(new FlowLayout());
 		
-		contentPanel.add(new JLabel(" Data recorded! Have a good day! "));
+		JLabel infoLabel = new JLabel(info);
+		infoLabel.setForeground(color);
+		contentPanel.add(infoLabel);
 		btnPanel.add(btnOK);
 		
 		this.add(contentPanel, BorderLayout.CENTER);
@@ -32,5 +40,8 @@ public class AwakeDialog extends Dialog {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+
 	}
+	
+	
 }

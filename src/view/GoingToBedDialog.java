@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 
@@ -20,7 +21,7 @@ public class GoingToBedDialog extends Dialog {
 	public void setupDialog() {
 		JPanel contentPanel = new JPanel();
 		JPanel btnPanel = new JPanel();
-		contentPanel.setLayout(new BorderLayout());
+		contentPanel.setLayout(new GridBagLayout());
 		btnPanel.setLayout(new FlowLayout());
 		
 		contentPanel.add(new JLabel(" Data recorded! Have a good night! "));
