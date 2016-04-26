@@ -1,9 +1,11 @@
 package event;
 
+import java.util.GregorianCalendar;
+
 public class RedAlert extends Event {
 	
-	public RedAlert() {
-		super();
+	public RedAlert(GregorianCalendar time) {
+		super(time);
 	}
 
 	@Override

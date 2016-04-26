@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.Window;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -12,18 +11,13 @@ public abstract class Dialog extends JDialog {
 	
 	public JButton btnOK;
 	
-	public Dialog(Window owner, String title, Dialog.ModalityType modalityType) {
-		super(owner, title, modalityType);
+	public Dialog(Window owner, String title, ActionListener l) {
+		super(owner, title);
+		btnOK = new JButton("OK");
 	}
 	
-	public void setupBtnOK() {
-		btnOK.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// if OK button is pressed close the dialog
-				dispose();
-			}
-		});
+	public void addBtnOKListener(ActionListener l) {
+		btnOK.addActionListener(l);
 	}
 	
 	public abstract void setupDialog();

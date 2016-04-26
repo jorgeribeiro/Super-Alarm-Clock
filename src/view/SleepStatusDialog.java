@@ -3,8 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Window;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -15,8 +15,8 @@ public class SleepStatusDialog extends Dialog {
 	private JTextArea txtReport = new JTextArea(10, 20);
 	private JScrollPane sp = new JScrollPane(txtReport);
 
-	public SleepStatusDialog(Window owner, String title, ModalityType modalityType) {
-		super(owner, title, modalityType);
+	public SleepStatusDialog(Window owner, String title, ActionListener l) {
+		super(owner, title, l);
 		setupDialog();
 	}
 	
@@ -30,9 +30,6 @@ public class SleepStatusDialog extends Dialog {
 		JPanel btnPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 		btnPanel.setLayout(new FlowLayout());
-		this.btnOK = new JButton("OK");
-		
-		setupBtnOK();
 		
 		contentPanel.add(sp);
 		btnPanel.add(btnOK);

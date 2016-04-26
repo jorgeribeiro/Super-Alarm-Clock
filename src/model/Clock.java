@@ -17,19 +17,11 @@ public class Clock {
 	public Clock() {
 		time = new GregorianCalendar();
 		events = new ArrayList<Event>();
-		setupEvents(); // use factory instead
-	}
-	
-	private void setupEvents() {
-		Event wakeAlarm = new WakeAlarm();
-		Event sleepAlarm = new SleepAlarm();
-		Event redAlert = new RedAlert();
-		Event yellowAlert = new YellowAlert();
-
-		events.add(wakeAlarm);
-		events.add(sleepAlarm);
-		events.add(redAlert);
-		events.add(yellowAlert);
+		// save indexes for each event
+		events.add(Clock.WAKE_ALARM, null);
+		events.add(Clock.SLEEP_ALARM, null);
+		events.add(Clock.RED_ALERT, null);
+		events.add(Clock.YELLOW_ALERT, null);
 	}
 
 	public GregorianCalendar getTime() {
@@ -48,25 +40,23 @@ public class Clock {
 		events.get(index).getTime().add(field, amount);
 	}
 
-	public ArrayList<Event> getEvents() {
-		return events;
-	}
-
-	public void setEvents(ArrayList<Event> events) {
-		this.events = events;
+	public Event getEvent(int index) {
+		return events.get(index);
 	}
 	
-	public void setAlarm(int index, GregorianCalendar time) {
-		events.get(index).setTime(time);
+	public void setEvent(int index, Event event) {
+		events.set(index, event);
 	}
 	
 	public String checkEvents() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 		String systemClock = dateFormat.format(time.getTime());
 		for(Event e : events) {
-			String eventClock = dateFormat.format(e.getTime().getTime());
-			if(eventClock.equals(systemClock)) {
-				return e.Trigger();
+			if(e != null) {
+				String eventClock = dateFormat.format(e.getTime().getTime());
+				if(eventClock.equals(systemClock)) {
+					return e.Trigger();
+				}
 			}
 		}
 		return "";

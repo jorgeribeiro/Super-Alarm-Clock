@@ -1,9 +1,11 @@
 package event;
 
+import java.util.GregorianCalendar;
+
 public class SleepAlarm extends Event {
 	
-	public SleepAlarm() {
-		super();
+	public SleepAlarm(GregorianCalendar time) {
+		super(time);
 	}
 
 	@Override

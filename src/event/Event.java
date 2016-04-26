@@ -10,8 +10,9 @@ public abstract class Event {
 	
 	private GregorianCalendar time;
 	
-	public Event() {
-		time = new GregorianCalendar();
+	public Event(GregorianCalendar time) {
+		this.time = new GregorianCalendar();
+		setTime(time);
 	}
 	
 	public GregorianCalendar getTime() {

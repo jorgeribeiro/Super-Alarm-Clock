@@ -5,30 +5,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
 import controller.Controller;
-import model.Clock;
 
 public class GUI {
 	private JFrame frame;
 	private JPanel btnPanel, clockPanel;
 	private Controller ctrl; // get rid	
-	private Clock clock;
 	
-	private static final int ALARM_DIALOG 	= 1;
 	private static final int BED_DIALOG 	= 2;
 	private static final int AWAKE_DIALOG 	= 3;
 	private static final int STATUS_DIALOG 	= 4;
 	private static final int REPORT_DIALOG 	= 5;
 	private static final int EVENT_DIALOG   = 6;
 	
-	public GUI(Controller ctrl, Clock clock) {
+	public GUI(Controller ctrl) {
 		this.ctrl = ctrl;
-		this.clock = clock;
 		frameSetup();
 	}
 	
@@ -54,6 +49,10 @@ public class GUI {
 	
 	public void addSetReportContactListener(ActionListener l) {
 		((ButtonPanel) btnPanel).addSetReportContactListener(l);
+	}
+	
+	public void setButtonPanelStatus(boolean b) {
+		((ButtonPanel) btnPanel).setPanelStatus(b);
 	}
 
 	public void frameSetup() {
@@ -143,6 +142,12 @@ public class GUI {
 		public void addSetReportContactListener(ActionListener l) {
 			btnSetReportContact.addActionListener(l);
 		}
+		
+		public void setPanelStatus(boolean b) {
+			Component[] components = this.getComponents();
+			for(Component c : components)
+				c.setEnabled(b);
+		}
 	}
 
 	class ClockPanel extends JPanel {
@@ -179,7 +184,7 @@ public class GUI {
 			dialog = dialogType;
 		}
 		
-		@SuppressWarnings({ "unchecked", "rawtypes" })
+		@SuppressWarnings("unchecked")
 		public void setupDialog(JPanel panel, Object data) {
 			container = this.getContentPane();
 			btnOk = new JButton("OK");
@@ -192,39 +197,6 @@ public class GUI {
 			btnOk.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					if(dialog == ALARM_DIALOG) {
-						Component[] components = (Component[]) data;
-						JPanel pnlWakeUp = (JPanel) components[0];
-						JTextField txtWakeUpH = (JTextField) pnlWakeUp.getComponent(1);
-						JTextField txtWakeUpM = (JTextField) pnlWakeUp.getComponent(3);
-						JComboBox comboWakeUp = (JComboBox) pnlWakeUp.getComponent(4);
-						JCheckBox cbWakeUp = (JCheckBox) pnlWakeUp.getComponent(5);
-						if(cbWakeUp.isSelected()) {
-							GregorianCalendar time = new GregorianCalendar(1, 1, 1, 
-									Integer.parseInt(txtWakeUpH.getText()), Integer.parseInt(txtWakeUpM.getText()));
-							if(comboWakeUp.getSelectedIndex() == Calendar.AM)
-								time.set(Calendar.AM_PM, Calendar.AM);
-							else
-								time.set(Calendar.AM_PM, Calendar.PM);
-							clock.setAlarm(Clock.WAKE_ALARM, time);
-						}
-						
-						JPanel pnlSleep = (JPanel) components[1];
-						JTextField txtSleepH = (JTextField) pnlSleep.getComponent(1);
-						JTextField txtSleepM = (JTextField) pnlSleep.getComponent(3);
-						JComboBox comboSleep = (JComboBox) pnlSleep.getComponent(4);
-						JCheckBox cbSleep = (JCheckBox) pnlSleep.getComponent(5);
-						if(cbSleep.isSelected()) {
-							GregorianCalendar time = new GregorianCalendar(1, 1, 1, 
-									Integer.parseInt(txtSleepH.getText()), Integer.parseInt(txtSleepM.getText()));
-							if(comboSleep.getSelectedIndex() == Calendar.AM)
-								time.set(Calendar.AM_PM, Calendar.AM);
-							else
-								time.set(Calendar.AM_PM, Calendar.PM);
-							clock.setAlarm(Clock.SLEEP_ALARM, time);
-						}
-						dispose();
-					}
 					if(dialog == BED_DIALOG) {
 						dispose();
 					}

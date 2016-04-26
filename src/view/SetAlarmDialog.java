@@ -3,8 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Window;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -25,9 +25,10 @@ public class SetAlarmDialog extends Dialog {
 	private JCheckBox cbWakeUp = new JCheckBox("ON/OFF");
 	private JCheckBox cbSleep = new JCheckBox("ON/OFF");
 
-	public SetAlarmDialog(Window owner, String title, ModalityType modalityType) {
-		super(owner, title, modalityType);
+	public SetAlarmDialog(Window owner, String title, ActionListener l) {
+		super(owner, title, l);
 		setupDialog();
+		addBtnOKListener(l);
 	}
 	
 	public String getTxtWakeUpHour() {
@@ -65,17 +66,33 @@ public class SetAlarmDialog extends Dialog {
 	public int getComboWakeUp() {
 		return comboWakeUp.getSelectedIndex();
 	}
+	
+	public void setComboWakeUp(int index) {
+		comboWakeUp.setSelectedIndex(index);
+	}
 
 	public int getComboSleep() {
 		return comboSleep.getSelectedIndex();
 	}
-
-	public boolean getCbWakeUp() {
-		return cbWakeUp.isSelected();
+	
+	public void setComboSleep(int index) {
+		comboSleep.setSelectedIndex(index);
 	}
 
-	public boolean getCbSleep() {
+	public boolean isCbWakeUpSelected() {
+		return cbWakeUp.isSelected();
+	}
+	
+	public void setCbWakeUp(boolean b) {
+		cbWakeUp.setSelected(b);
+	}
+
+	public boolean isCbSleepSelected() {
 		return cbSleep.isSelected();
+	}
+	
+	public void setCbSleep(boolean b) {
+		cbSleep.setSelected(b);
 	}
 
 	@Override
@@ -84,7 +101,6 @@ public class SetAlarmDialog extends Dialog {
 		JPanel btnPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 		btnPanel.setLayout(new FlowLayout());
-		this.btnOK = new JButton("OK");
 		
 		// wake up options
 		JPanel pnlWakeUp = new JPanel();
@@ -103,7 +119,6 @@ public class SetAlarmDialog extends Dialog {
 		pnlSleep.add(comboSleep);
 		pnlSleep.add(cbSleep);
 		comboSleep.setSelectedIndex(1);
-		setupBtnOK();
 		
 		contentPanel.add(pnlWakeUp, BorderLayout.CENTER);
 		contentPanel.add(pnlSleep, BorderLayout.SOUTH);

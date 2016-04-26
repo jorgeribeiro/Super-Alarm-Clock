@@ -2,11 +2,13 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import event.EventFactory;
 import model.*;
 import persistency.FileHandler;
 import view.*;
@@ -17,13 +19,15 @@ public class Controller {
 	//private static Student user; 	   // not used yet
 	//private static Contact contact;  // not used yet
 	private static FileHandler fileHandler;
+	private static EventFactory eventFactory;
 	
 	public Controller() {
 		clock = new Clock();
+		eventFactory = new EventFactory();
 		//user = new Student();
 		//contact = new Contact();
 		fileHandler = new FileHandler();
-		gui = new GUI(this, clock);
+		gui = new GUI(this);
     	setupClock();
     	
     	gui.addSetAlarmListener(new SetAlarmListener());
@@ -35,10 +39,10 @@ public class Controller {
 	
 	/**
 	 * TODO
-	 * improve thread (too big)
+	 * refactor thread (too big)
 	 */
 	private void setupClock() {
-		gui.updateClockPanel(clock.getTime()); // show machine time
+		gui.updateClockPanel(clock.getTime()); // show first machine time
 		ActionListener updateClockAction = new ActionListener() {
 			  public void actionPerformed(ActionEvent e) {
 				  new Thread(new Runnable() {
@@ -80,12 +84,46 @@ public class Controller {
 	 */
 	class SetAlarmListener implements ActionListener {
 		SetAlarmDialog dialogSetAlarm;
+		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			dialogSetAlarm = new SetAlarmDialog(gui.getFrame(), "Set alarm", Dialog.ModalityType.DOCUMENT_MODAL);
-			// if button ok is pressed do the work
-			// why isActive() is working for this functionality? I have no idea
-			if(dialogSetAlarm.isActive()) { System.out.println("Set alarm Closed");	}
+			dialogSetAlarm = new SetAlarmDialog(gui.getFrame(), "Set alarm", new ButtonOKListener());
+		}
+		
+		class ButtonOKListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setAlarm();
+				dialogSetAlarm.dispose();
+			}
+			
+			private void setAlarm() {
+				GregorianCalendar timeWakeUp;
+				GregorianCalendar timeSleep;
+				// set wake up alarm
+				if(dialogSetAlarm.isCbWakeUpSelected()) {
+					timeWakeUp = new GregorianCalendar(1, 1, 1,
+							Integer.parseInt(dialogSetAlarm.getTxtWakeUpHour()), 
+							Integer.parseInt(dialogSetAlarm.getTxtWakeUpMin()));
+					if(dialogSetAlarm.getComboWakeUp() == Calendar.AM)
+						timeWakeUp.set(Calendar.AM_PM, Calendar.AM);
+					else
+						timeWakeUp.set(Calendar.AM_PM, Calendar.PM);
+					clock.setEvent(Clock.WAKE_ALARM, eventFactory.getEvent(Clock.WAKE_ALARM, timeWakeUp));
+				}
+				
+				// set sleep alarm
+				if(dialogSetAlarm.isCbSleepSelected()) {
+					timeSleep = new GregorianCalendar(1, 1, 1,
+							Integer.parseInt(dialogSetAlarm.getTxtSleepHour()), 
+							Integer.parseInt(dialogSetAlarm.getTxtSleepMin()));
+					if(dialogSetAlarm.getComboSleep() == Calendar.AM)
+						timeSleep.set(Calendar.AM_PM, Calendar.AM);
+					else
+						timeSleep.set(Calendar.AM_PM, Calendar.PM);
+					clock.setEvent(Clock.SLEEP_ALARM, eventFactory.getEvent(Clock.SLEEP_ALARM, timeSleep));
+				}
+			}
 		}
 	}
 	
@@ -93,8 +131,15 @@ public class Controller {
 		GoingToBedDialog dialogGoingToBed;
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dialogGoingToBed = new GoingToBedDialog(gui.getFrame(), "Going to bed", Dialog.ModalityType.DOCUMENT_MODAL);
+			dialogGoingToBed = new GoingToBedDialog(gui.getFrame(), "Going to bed", new ButtonOKListener());
 			if(dialogGoingToBed.isActive()) { System.out.println("Going to bed Closed"); }
+		}
+		
+		class ButtonOKListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("OK Going to bed Pressed");
+			}
 		}
 	}
 	
@@ -102,8 +147,15 @@ public class Controller {
 		AwakeDialog dialogAwake;
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dialogAwake = new AwakeDialog(gui.getFrame(), "I am awake", Dialog.ModalityType.DOCUMENT_MODAL);
+			dialogAwake = new AwakeDialog(gui.getFrame(), "I am awake", new ButtonOKListener());
 			if(dialogAwake.isActive()) { System.out.println("Awake Closed"); }
+		}
+
+		class ButtonOKListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("OK I am awake Pressed");
+			}
 		}
 	}
 	
@@ -111,8 +163,15 @@ public class Controller {
 		SleepStatusDialog dialogSleepStatus;
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dialogSleepStatus = new SleepStatusDialog(gui.getFrame(), "Check sleep status", Dialog.ModalityType.DOCUMENT_MODAL);
+			dialogSleepStatus = new SleepStatusDialog(gui.getFrame(), "Check sleep status", new ButtonOKListener());
 			if(dialogSleepStatus.isActive()) { System.out.println("Sleep status Closed"); }
+		}
+
+		class ButtonOKListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("OK Sleep status Pressed");
+			}
 		}
 	}
 	
@@ -120,8 +179,15 @@ public class Controller {
 		ReportContactDialog dialogReportContact;
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dialogReportContact = new ReportContactDialog(gui.getFrame(), "Set report contact", Dialog.ModalityType.DOCUMENT_MODAL);
+			dialogReportContact = new ReportContactDialog(gui.getFrame(), "Set report contact", new ButtonOKListener());
 			if(dialogReportContact.isActive()) { System.out.println("Set report contact Closed"); }
+		}
+
+		class ButtonOKListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("OK Report contact Pressed");
+			}
 		}
 	}
 }

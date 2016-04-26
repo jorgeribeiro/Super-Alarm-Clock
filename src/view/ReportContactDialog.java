@@ -3,8 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Window;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -16,8 +16,8 @@ public class ReportContactDialog extends Dialog {
 	private JTextField txtEmail = new JTextField(15);
 	private JTextField txtPhone = new JTextField(15);
 	
-	public ReportContactDialog(Window owner, String title, ModalityType modalityType) {
-		super(owner, title, modalityType);
+	public ReportContactDialog(Window owner, String title, ActionListener l) {
+		super(owner, title, l);
 		setupDialog();
 	}
 	
@@ -51,7 +51,6 @@ public class ReportContactDialog extends Dialog {
 		JPanel btnPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 		btnPanel.setLayout(new FlowLayout());
-		this.btnOK = new JButton("OK");
 		
 		JPanel pnlName = new JPanel();
 		pnlName.add(new JLabel("Name"));
@@ -65,7 +64,6 @@ public class ReportContactDialog extends Dialog {
 		pnlPhone.add(new JLabel("Phone"));
 		pnlPhone.add(txtPhone);
 		
-		setupBtnOK();
 		
 		contentPanel.add(pnlName, BorderLayout.NORTH);
 		contentPanel.add(pnlEmail, BorderLayout.CENTER);

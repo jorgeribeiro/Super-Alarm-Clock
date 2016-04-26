@@ -3,16 +3,16 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Window;
+import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class AwakeDialog extends Dialog {
 	private static final long serialVersionUID = 1L;
 
-	public AwakeDialog(Window owner, String title, ModalityType modalityType) {
-		super(owner, title, modalityType);
+	public AwakeDialog(Window owner, String title, ActionListener l) {
+		super(owner, title, l);
 		setupDialog();
 	}
 
@@ -22,9 +22,6 @@ public class AwakeDialog extends Dialog {
 		JPanel btnPanel = new JPanel();
 		contentPanel.setLayout(new BorderLayout());
 		btnPanel.setLayout(new FlowLayout());
-		this.btnOK = new JButton("OK");
-		
-		setupBtnOK();
 		
 		contentPanel.add(new JLabel(" Data recorded! Have a good day! "));
 		btnPanel.add(btnOK);
