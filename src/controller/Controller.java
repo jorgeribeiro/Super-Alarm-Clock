@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -69,6 +70,7 @@ public class Controller {
 		t.start();
 	}
 	
+<<<<<<< HEAD
 	private Color setFontColor(String info) {
 		if(info.equals(Event.RED_ALERT)) return new Color(255, 0, 0);
 		else if(info.equals(Event.YELLOW_ALERT)) return new Color(204, 204, 0);
@@ -83,6 +85,8 @@ public class Controller {
 		return fileHandler.readFile(fileName);
 	}
 	
+=======
+>>>>>>> origin/master
 	public static void main(String[] args) {
 		new Controller();
 	}
@@ -160,6 +164,10 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
+=======
+				fileHandler.writeFile("bedTime.txt",clock.getTimeStamp(),true);
+>>>>>>> origin/master
 				dialogGoingToBed.dispose();
 			}
 		}
@@ -175,6 +183,10 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
+=======
+				fileHandler.writeFile("awakeTime.txt",clock.getTimeStamp(),true);
+>>>>>>> origin/master
 				dialogAwake.dispose();
 			}
 		}
@@ -185,6 +197,8 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogSleepStatus = new SleepStatusDialog(gui.getFrame(), "Check sleep status", new ButtonOKListener());
+			String sleepStatus = fileHandler.readFile("status.txt");
+			dialogSleepStatus.setTxtReport(sleepStatus);
 		}
 
 		class ButtonOKListener implements ActionListener {
@@ -205,6 +219,7 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				dialogReportContact.dispose();
 			}
 		}
@@ -230,6 +245,20 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dialogEvent.dispose();
+=======
+				String infoContact = "";
+				if(dialogReportContact.getTxtName().equals("")||dialogReportContact.getTxtEmail().equals("")||dialogReportContact.getTxtPhone().equals("")){
+					JOptionPane.showMessageDialog(dialogReportContact, "All fields are required","Error",JOptionPane.ERROR_MESSAGE);
+				}
+				else{
+					infoContact += "Name: "      + dialogReportContact.getTxtName()  + "\n";
+					infoContact += "Email: "     + dialogReportContact.getTxtEmail() + "\n";
+					infoContact += "Telephone: " + dialogReportContact.getTxtPhone() + "\n";
+					fileHandler.writeFile("contactInfo.txt", infoContact,false);
+					JOptionPane.showMessageDialog(dialogReportContact, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
+					dialogReportContact.dispose();
+				}
+>>>>>>> origin/master
 			}
 		}
 	}
