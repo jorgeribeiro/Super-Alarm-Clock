@@ -71,6 +71,7 @@ public class Controller {
 	}
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private Color setFontColor(String info) {
 		if(info.equals(Event.RED_ALERT)) return new Color(255, 0, 0);
 		else if(info.equals(Event.YELLOW_ALERT)) return new Color(204, 204, 0);
@@ -85,6 +86,8 @@ public class Controller {
 		return fileHandler.readFile(fileName);
 	}
 	
+=======
+>>>>>>> origin/master
 =======
 >>>>>>> origin/master
 	public static void main(String[] args) {
@@ -165,6 +168,10 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+				fileHandler.writeFile("bedTime.txt",clock.getTimeStamp(),true);
+>>>>>>> origin/master
 =======
 				fileHandler.writeFile("bedTime.txt",clock.getTimeStamp(),true);
 >>>>>>> origin/master
@@ -184,6 +191,10 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+				fileHandler.writeFile("awakeTime.txt",clock.getTimeStamp(),true);
+>>>>>>> origin/master
 =======
 				fileHandler.writeFile("awakeTime.txt",clock.getTimeStamp(),true);
 >>>>>>> origin/master
@@ -220,6 +231,7 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 				dialogReportContact.dispose();
 			}
 		}
@@ -246,6 +258,8 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 				dialogEvent.dispose();
 =======
+=======
+>>>>>>> origin/master
 				String infoContact = "";
 				if(dialogReportContact.getTxtName().equals("")||dialogReportContact.getTxtEmail().equals("")||dialogReportContact.getTxtPhone().equals("")){
 					JOptionPane.showMessageDialog(dialogReportContact, "All fields are required","Error",JOptionPane.ERROR_MESSAGE);
@@ -258,6 +272,9 @@ public class Controller {
 					JOptionPane.showMessageDialog(dialogReportContact, "Data recorded successfully","Success",JOptionPane.INFORMATION_MESSAGE);
 					dialogReportContact.dispose();
 				}
+<<<<<<< HEAD
+>>>>>>> origin/master
+=======
 >>>>>>> origin/master
 			}
 		}
