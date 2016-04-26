@@ -130,7 +130,7 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fileHandler.writeFile("goToBed.txt",clock.getTimeStamp(),true);
+				fileHandler.writeFile("bedTime.txt",clock.getTimeStamp(),true);
 				dialogGoingToBed.dispose();
 			}
 		}
@@ -146,7 +146,8 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("OK I am awake Pressed");
+				fileHandler.writeFile("awakeTime.txt",clock.getTimeStamp(),true);
+				dialogAwake.dispose();
 			}
 		}
 	}
