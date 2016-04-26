@@ -14,9 +14,10 @@ public abstract class Dialog extends JDialog {
 	public Dialog(Window owner, String title, ActionListener l) {
 		super(owner, title);
 		btnOK = new JButton("OK");
+		addBtnOKListener(l);
 	}
 	
-	public void addBtnOKListener(ActionListener l) {
+	private void addBtnOKListener(ActionListener l) {
 		btnOK.addActionListener(l);
 	}
 	

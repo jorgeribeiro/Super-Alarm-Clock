@@ -28,7 +28,6 @@ public class SetAlarmDialog extends Dialog {
 	public SetAlarmDialog(Window owner, String title, ActionListener l) {
 		super(owner, title, l);
 		setupDialog();
-		addBtnOKListener(l);
 	}
 	
 	public String getTxtWakeUpHour() {
