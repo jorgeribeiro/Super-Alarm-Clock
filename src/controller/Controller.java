@@ -254,8 +254,12 @@ public class Controller {
 			public void actionPerformed(ActionEvent e) {
 				if(dialogEvent.getInfo().equals(Clock.RED_ALERT)) {
 					// save information...
+					fileHandler.writeFile("redAlert.txt", clock.getTimeStamp(), true);
+					
 				} else if(dialogEvent.getInfo().equals(Clock.YELLOW_ALERT)) {
 					// save information...
+					fileHandler.writeFile("yellowAlert.txt", clock.getTimeStamp(), true);
+
 				}
 				dialogEvent.dispose();
 			}
