@@ -4,8 +4,8 @@ import java.util.GregorianCalendar;
 
 public class RedAlert extends Event {
 	
-	public RedAlert(GregorianCalendar time) {
-		super(time);
+	public RedAlert(GregorianCalendar time, boolean active) {
+		super(time, active);
 	}
 
 	@Override

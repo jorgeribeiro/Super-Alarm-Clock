@@ -9,9 +9,11 @@ public abstract class Event {
 	public static final String YELLOW_ALERT = " Get ready to go to bed! ";
 	
 	private GregorianCalendar time;
+	private boolean active;
 	
-	public Event(GregorianCalendar time) {
+	public Event(GregorianCalendar time, boolean active) {
 		this.time = new GregorianCalendar();
+		this.active = active;
 		setTime(time);
 	}
 	
@@ -21,6 +23,14 @@ public abstract class Event {
 
 	public void setTime(GregorianCalendar time) {
 		this.time = time;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public abstract String Trigger();

@@ -52,7 +52,7 @@ public class Clock {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 		String systemClock = dateFormat.format(time.getTime());
 		for(Event e : events) {
-			if(e != null) {
+			if(e != null && e.isActive()) {
 				String eventClock = dateFormat.format(e.getTime().getTime());
 				if(eventClock.equals(systemClock)) {
 					return e.Trigger();

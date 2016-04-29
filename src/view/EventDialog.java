@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 public class EventDialog extends Dialog {
 	private static final long serialVersionUID = 1L;
 	
-	String info;
-	Color color;
+	private String info;
+	private Color color;
 	
 	public EventDialog(Window owner, String title, ActionListener l, String info, Color color) {
 		super(owner, title, l);
@@ -40,8 +40,10 @@ public class EventDialog extends Dialog {
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
-
 	}
 	
+	public String getInfo() {
+		return info;
+	}
 	
 }

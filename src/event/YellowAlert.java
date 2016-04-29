@@ -4,8 +4,8 @@ import java.util.GregorianCalendar;
 
 public class YellowAlert extends Event {
 	
-	public YellowAlert(GregorianCalendar time) {
-		super(time);
+	public YellowAlert(GregorianCalendar time, boolean active) {
+		super(time, active);
 	}
 
 	@Override

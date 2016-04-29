@@ -19,25 +19,21 @@ import view.*;
 public class Controller {
 	private static GUI gui;
 	private static Clock clock;
-	//private static Student user; 	   // not used yet
-	//private static Contact contact;  // not used yet
 	private static FileHandler fileHandler;
 	private static EventFactory eventFactory;
+	//private static Student user; 	   // not used yet
+	//private static Contact contact;  // not used yet
 	
 	public Controller() {
+		gui = new GUI();
 		clock = new Clock();
+		fileHandler = new FileHandler();
 		eventFactory = new EventFactory();
 		//user = new Student();
 		//contact = new Contact();
-		fileHandler = new FileHandler();
-		gui = new GUI();
+		
     	setupClock();
-    	
-    	gui.addSetAlarmListener(new SetAlarmListener());
-    	gui.addGoingToBedListener(new GoingToBedListener());
-    	gui.addAwakeListener(new AwakeListener());
-    	gui.addSleepStatusListener(new SleepStatusListener());
-    	gui.addSetReportContactListener(new SetReportContactListener());
+    	setupListeners(); 	
 	}
 	
 	/**
@@ -70,6 +66,14 @@ public class Controller {
 		t.start();
 	}
 	
+	private void setupListeners() {
+		gui.addSetAlarmListener(new SetAlarmListener());
+    	gui.addGoingToBedListener(new GoingToBedListener());
+    	gui.addAwakeListener(new AwakeListener());
+    	gui.addSleepStatusListener(new SleepStatusListener());
+    	gui.addSetReportContactListener(new SetReportContactListener());
+	}
+	
 	private Color setFontColor(String info) {
 		if(info.equals(Event.RED_ALERT)) return new Color(255, 0, 0);
 		else if(info.equals(Event.YELLOW_ALERT)) return new Color(204, 204, 0);
@@ -80,9 +84,6 @@ public class Controller {
 		new Controller();
 	}
 	
-	/**
-	 *  refactoring the MVC - Jorge
-	 */
 	class SetAlarmListener implements ActionListener {
 		SetAlarmDialog dialogSetAlarm;
 		
@@ -110,7 +111,7 @@ public class Controller {
 						timeWakeUp.set(Calendar.AM_PM, Calendar.AM);
 					else
 						timeWakeUp.set(Calendar.AM_PM, Calendar.PM);
-					clock.setEvent(Clock.WAKE_ALARM, eventFactory.getEvent(Clock.WAKE_ALARM, timeWakeUp));
+					clock.setEvent(Clock.WAKE_ALARM, eventFactory.getEvent(Clock.WAKE_ALARM, timeWakeUp, true));
 				}
 				
 				// set sleep alarm
@@ -122,7 +123,7 @@ public class Controller {
 						timeSleep.set(Calendar.AM_PM, Calendar.AM);
 					else
 						timeSleep.set(Calendar.AM_PM, Calendar.PM);
-					clock.setEvent(Clock.SLEEP_ALARM, eventFactory.getEvent(Clock.SLEEP_ALARM, timeSleep));
+					clock.setEvent(Clock.SLEEP_ALARM, eventFactory.getEvent(Clock.SLEEP_ALARM, timeSleep, true));
 					setAlerts(timeSleep);
 				}
 				dialogSetAlarm.dispose();
@@ -137,8 +138,8 @@ public class Controller {
 				
 				redAlert.set(Calendar.AM_PM, timeSleep.get(Calendar.AM_PM));
 				yellowAlert.set(Calendar.AM_PM, timeSleep.get(Calendar.AM_PM));
-				clock.setEvent(Clock.RED_ALERT, eventFactory.getEvent(Clock.RED_ALERT, redAlert));
-				clock.setEvent(Clock.YELLOW_ALERT, eventFactory.getEvent(Clock.YELLOW_ALERT, yellowAlert));
+				clock.setEvent(Clock.RED_ALERT, eventFactory.getEvent(Clock.RED_ALERT, redAlert, true));
+				clock.setEvent(Clock.YELLOW_ALERT, eventFactory.getEvent(Clock.YELLOW_ALERT, yellowAlert, true));
 			}
 		}
 	}
@@ -151,10 +152,20 @@ public class Controller {
 		}
 		
 		class ButtonOKListener implements ActionListener {
+			Event event;
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fileHandler.writeFile("bedTime.txt", clock.getTimeStamp(), true);
 				fileHandler.writeFile("bedTime.txt", clock.getTimeStamp(), true);
+				if((event = clock.getEvent(Clock.WAKE_ALARM)) != null)
+					event.setActive(true);
+				if((event = clock.getEvent(Clock.SLEEP_ALARM)) != null)
+					event.setActive(false);
+				if((event = clock.getEvent(Clock.RED_ALERT)) != null)
+					event.setActive(false);
+				if((event = clock.getEvent(Clock.YELLOW_ALERT)) != null)
+					event.setActive(false);
 				dialogGoingToBed.dispose();
 			}
 		}
@@ -241,6 +252,11 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(dialogEvent.getInfo().equals(Clock.RED_ALERT)) {
+					// save information...
+				} else if(dialogEvent.getInfo().equals(Clock.YELLOW_ALERT)) {
+					// save information...
+				}
 				dialogEvent.dispose();
 			}
 		}
