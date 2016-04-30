@@ -260,13 +260,7 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				if(dialogEvent.getInfo().equals(Event.RED_ALERT)) {
-=======
-				if(dialogEvent.getInfo().equals(Clock.RED_ALERT)) {
-					
-					// save information...
->>>>>>> origin/master
 					fileHandler.writeFile("redAlert.txt", clock.getTimeStamp(), true);
 					
 				} else if(dialogEvent.getInfo().equals(Event.YELLOW_ALERT)) {
