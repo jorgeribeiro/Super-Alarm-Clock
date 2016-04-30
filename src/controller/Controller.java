@@ -157,7 +157,6 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fileHandler.writeFile("bedTime.txt", clock.getTimeStamp(), true);
-				fileHandler.writeFile("bedTime.txt", clock.getTimeStamp(), true);
 				if((event = clock.getEvent(Clock.WAKE_ALARM)) != null)
 					event.setActive(true);
 				if((event = clock.getEvent(Clock.SLEEP_ALARM)) != null)
@@ -179,10 +178,19 @@ public class Controller {
 		}
 
 		class ButtonOKListener implements ActionListener {
+			Event event;
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				fileHandler.writeFile("awakeTime.txt", clock.getTimeStamp(), true);
-				fileHandler.writeFile("awakeTime.txt", clock.getTimeStamp(), true);
+				if((event = clock.getEvent(Clock.WAKE_ALARM)) != null)
+					event.setActive(false);
+				if((event = clock.getEvent(Clock.SLEEP_ALARM)) != null)
+					event.setActive(true);
+				if((event = clock.getEvent(Clock.RED_ALERT)) != null)
+					event.setActive(true);
+				if((event = clock.getEvent(Clock.YELLOW_ALERT)) != null)
+					event.setActive(true);
 				dialogAwake.dispose();
 			}
 		}
@@ -252,7 +260,13 @@ public class Controller {
 		class ButtonOKListener implements ActionListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 				if(dialogEvent.getInfo().equals(Event.RED_ALERT)) {
+=======
+				if(dialogEvent.getInfo().equals(Clock.RED_ALERT)) {
+					
+					// save information...
+>>>>>>> origin/master
 					fileHandler.writeFile("redAlert.txt", clock.getTimeStamp(), true);
 					
 				} else if(dialogEvent.getInfo().equals(Event.YELLOW_ALERT)) {
