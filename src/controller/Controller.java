@@ -21,6 +21,7 @@ public class Controller {
 	private static Clock clock;
 	private static FileHandler fileHandler;
 	private static EventFactory eventFactory;
+	private static int redAlerts;
 	//private static Student user; 	   // not used yet
 	//private static Contact contact;  // not used yet
 	
@@ -29,6 +30,7 @@ public class Controller {
 		clock = new Clock();
 		fileHandler = new FileHandler();
 		eventFactory = new EventFactory();
+		redAlerts = 0;
 		//user = new Student();
 		//contact = new Contact();
 		
@@ -146,6 +148,7 @@ public class Controller {
 	
 	class GoingToBedListener implements ActionListener {
 		GoingToBedDialog dialogGoingToBed;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogGoingToBed = new GoingToBedDialog(gui.getFrame(), "Going to bed", new ButtonOKListener());
@@ -172,6 +175,7 @@ public class Controller {
 	
 	class AwakeListener implements ActionListener {
 		AwakeDialog dialogAwake;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogAwake = new AwakeDialog(gui.getFrame(), "I am awake", new ButtonOKListener());
@@ -198,6 +202,7 @@ public class Controller {
 	
 	class SleepStatusListener implements ActionListener {
 		SleepStatusDialog dialogSleepStatus;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogSleepStatus = new SleepStatusDialog(gui.getFrame(), "Check sleep status", new ButtonOKListener());
@@ -215,6 +220,7 @@ public class Controller {
 	
 	class SetReportContactListener implements ActionListener {
 		ReportContactDialog dialogReportContact;
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			dialogReportContact = new ReportContactDialog(gui.getFrame(), "Set report contact", new ButtonOKListener());
@@ -261,6 +267,11 @@ public class Controller {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(dialogEvent.getInfo().equals(Event.RED_ALERT)) {
+					redAlerts++;
+					if(redAlerts == 3) {
+						// send message to the contact
+						redAlerts = 0;
+					}
 					fileHandler.writeFile("redAlert.txt", clock.getTimeStamp(), true);
 					
 				} else if(dialogEvent.getInfo().equals(Event.YELLOW_ALERT)) {

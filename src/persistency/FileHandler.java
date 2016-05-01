@@ -22,10 +22,10 @@ public class FileHandler {
 		String toReturn = "";
 		String info = "";
 	        try {
-	            FileReader fileReader = new FileReader("data/"+ fileName);            
-	            BufferedReader bufferedReader = new BufferedReader(fileReader);//Wrap FileReader in BufferedReader.
-	            while((info= bufferedReader.readLine()) != null) {
-	            	toReturn+=info + "\n";
+	            FileReader fileReader = new FileReader("data/" + fileName);            
+	            BufferedReader bufferedReader = new BufferedReader(fileReader); //Wrap FileReader in BufferedReader.
+	            while((info = bufferedReader.readLine()) != null) {
+	            	toReturn += info + "\n";
 	            } 
 	            bufferedReader.close();
 	            return toReturn;
