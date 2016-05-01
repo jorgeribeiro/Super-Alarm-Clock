@@ -69,6 +69,6 @@ public class Clock {
 	
 	public String getTimeStamp(){
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-		return dateFormat.format(time.getTime()) + "\n";
+		return dateFormat.format(time.getTime());
 	}
 }

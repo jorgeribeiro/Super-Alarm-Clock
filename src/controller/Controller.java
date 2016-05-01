@@ -262,9 +262,9 @@ public class Controller {
 					redAlerts++;
 					if(redAlerts == 3) {
 						// send message to the contact
-						redAlerts = 0;
+						//redAlerts = 0;
 					}
-					fileHandler.writeFile("redAlert.txt", clock.getTimeStamp(), true);
+					fileHandler.writeFile("status.txt", clock.getTimeStamp()+ " Red Alerts: " + redAlerts + "\n", true);
 					
 				} else if(dialogEvent.getInfo().equals(Event.YELLOW_ALERT)) {
 					fileHandler.writeFile("yellowAlert.txt", clock.getTimeStamp(), true);
