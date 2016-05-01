@@ -22,8 +22,6 @@ public class Controller {
 	private static FileHandler fileHandler;
 	private static EventFactory eventFactory;
 	private static int redAlerts;
-	//private static Student user; 	   // not used yet
-	//private static Contact contact;  // not used yet
 	
 	public Controller() {
 		gui = new GUI();
@@ -31,17 +29,11 @@ public class Controller {
 		fileHandler = new FileHandler();
 		eventFactory = new EventFactory();
 		redAlerts = 0;
-		//user = new Student();
-		//contact = new Contact();
 		
     	setupClock();
     	setupListeners(); 	
 	}
 	
-	/**
-	 * TODO
-	 * refactor thread (too big)
-	 */
 	private void setupClock() {
 		gui.updateClockPanel(clock.getTime()); // show first machine time
 		ActionListener updateClockAction = new ActionListener() {
